@@ -13,12 +13,22 @@ The most basic form of L-System is a \emph{0L}-System, 0 in this case referring 
 
 For this example\cite{lsyspaulbourke}, consider an alphabet $V$, which consists of the following symbols:
 
-$$ \mbox{F}, +, - $$
+\newcommand{\F}{\mbox{F}}
+
+$$ \F, +, - $$
+
+where $\F$ means ``to go forward", and $+$ and $-$ denote turning right or left (respectively) a set number of degrees $\o$.
 
 Take an axiom $\omega$, for example:
 
-$$ \mbox{F}+\mbox{F}+\mbox{F}+\mbox{F} $$
+$$ \F+\F+\F+\F $$
 
-and a set of rules $P$ which, in this case, is of size 1:
+And a set of rules $P$ which, in this case, is of size 1:
 
-$$ \mbox{F} \rightarrow \mbox{F}+\mbox{F}-\mbox{F}-\mbox{F}\mbox{F}+\mbox{F}+\mbox{F}-\mbox{F} $$
+$$ \F \rightarrow \F+\F-\F-\F\F+\F+\F-\F $$
+
+We can represent this \emph{parametric} L-system in the following form:\cite{enwiki:1124510226}
+
+$$ G = (V, \omega, P) $$
+
+To implement $G$ in Godot, we can take an input string (the axiom) and 
