@@ -110,19 +110,3 @@
 	year = {2013}
 }
 
-@online{enwiki:1124510226,
-	author = {{Wikipedia contributors}},
-	note = {[Online; accessed 23-February-2023]},
-	title = {L-system --- {Wikipedia}{,} The Free Encyclopedia},
-	url = {https://en.wikipedia.org/w/index.php?title=L-system&oldid=1124510226},
-	year = {2022}
-}
-
-@article{lsyspaulbourke,
-	author = {Paul Bourke},
-	month = jul,
-	title = {L-System User Notes},
-	url = {http://paulbourke.net/fractals/lsys},
-	year = {1991}
-}
-

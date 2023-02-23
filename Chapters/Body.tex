@@ -1,6 +1,24 @@
 \chapter{Report Body}
-The central part of the report usually consists of three or four chapters detailing the technical work undertaken during the project. {\bf{\textcolor{red}{The structure of these chapters is highly project dependent}}}. They can reflect the chronological development of the project, e.g. design, implementation, experimentation, optimisation, evaluation, etc (although this is not always the best approach). However you choose to structure this part of the report, you should make it clear how you arrived at your chosen approach in preference to other alternatives. In terms of the software that you produce, you should describe and justify the design of your programs at some high level, e.g. using OMT, Z, VDL, etc., and you should document any interesting problems with, or features of, your implementation. Integration and testing are also important to discuss in some cases. You may include fragments of your source code in the main body of the report to illustrate points; the full source code is included in an appendix to your written report.
+%The central part of the report usually consists of three or four chapters detailing the technical work undertaken during the project. {\bf{\textcolor{red}{The structure of these chapters is highly project dependent}}}. They can reflect the chronological development of the project, e.g. design, implementation, experimentation, optimisation, evaluation, etc (although this is not always the best approach). However you choose to structure this part of the report, you should make it clear how you arrived at your chosen approach in preference to other alternatives. In terms of the software that you produce, you should describe and justify the design of your programs at some high level, e.g. using OMT, Z, VDL, etc., and you should document any interesting problems with, or features of, your implementation. Integration and testing are also important to discuss in some cases. You may include fragments of your source code in the main body of the report to illustrate points; the full source code is included in an appendix to your written report.
 
-\section{Section Heading}
+\section{Algorithms}
 
-\subsection{Subsection Heading}
+\subsection{Lindenmayer Systems}
+
+Hungarian academic Aristid Lindenmayer devised a mathematical model for the reproduction of fungi in 1967.\cite{LINDENMAYER1968300} His model involved a string of symbols, each unique symbol denoting a specific action and/or branch. Essentially, running that initial string, called the \emph{axiom}, through a set of rules (called a \emph{grammar}) gives us an ever-expanding string that is then taken as instructions to draw something from. Lindenmayer Systems, or L-Systems, have since been used in several scenarios beyond its initial purpose of modelling fungi, from trees to fractals. In video games, they are frequently used to aid in the creation of foliage in several environments, as well as buildings and, here, level layouts.
+
+\subsection{Types of Lindenmayer System}
+
+The most basic form of L-System is a \emph{0L}-System, 0 in this case referring to the fact that the grammar is \emph{context-free}.
+
+For this example\cite{enwiki:1124510226}, consider an alphabet $V$, which consists of the following symbols:
+
+$$ \mbox{F}, +, - $$
+
+Take an axiom $\omega$, for example:
+
+$$ \mbox{F}+\mbox{F}+\mbox{F}+\mbox{F} $$
+
+and a set of rules $P$ which, in this case, is of size 1:
+
+$$ \mbox{F} --> \mbox{F}+\mbox{F}-\mbox{F}-\mbox{F}\mbox{F}+\mbox{F}+\mbox{F}-\mbox{F} $$

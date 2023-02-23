@@ -118,11 +118,3 @@
 	year = {2022}
 }
 
-@article{lsyspaulbourke,
-	author = {Paul Bourke},
-	month = jul,
-	title = {L-System User Notes},
-	url = {http://paulbourke.net/fractals/lsys},
-	year = {1991}
-}
-
