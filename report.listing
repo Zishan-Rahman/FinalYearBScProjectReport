@@ -1,0 +1,1 @@
+	string = string.replace(rule["from"], rule["to"]) #Here the rules were stored in dictionaries.

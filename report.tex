@@ -7,10 +7,54 @@
 \usepackage{hyperref}
 \usepackage[justification=Centering]{caption}
 \usepackage{float}
-\usepackage{graphicx}
-\graphicspath{Images/}
 \newcommand{\link}[1]{\href{#1}{#1}}
 \usepackage[square,sort,comma,numbers]{natbib} %References
+
+% https://tex.stackexchange.com/a/353234
+
+\usepackage{calc}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{pdfpages,graphicx}
+\usepackage{mdframed}
+\usepackage{listings}
+\definecolor{light-gray}{gray}{0.92}
+
+\definecolor{mainColor}{RGB}{211, 47, 47} % some dark red
+
+\renewcommand\lstlistingname{Code}
+\lstset{
+	language=Python,
+	numbers=left,
+	numbersep= 7mm,
+	numberstyle=\color{Black},
+	stepnumber=1,
+	tabsize=3,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	basicstyle=\color{Black}\ttfamily,
+	commentstyle=\color{LimeGreen},
+	keywordstyle=\color{BurntOrange}\bfseries,
+	stringstyle=\color{WildStrawberry},
+	keywords={var, func, extends},
+	frame=leftline,
+	framesep=0mm,
+	xleftmargin=3mm,% marge ajouté à gauche du tableau (à configurer en dernier pour l'alignement global du tableau)
+	framesep=2mm, %distance texte bord du cadre (limite de la background color)
+	framerule=0mm,
+	abovecaptionskip=5mm,
+	aboveskip=\baselineskip,
+	belowskip=\baselineskip
+}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable,listings}
+\newtcblisting[use counter=lstlisting]{codeblock}[2][]{%
+	enhanced,noparskip,breakable,colback=light-gray,colframe=DarkSlateGray,opacitybacktitle=.8,%
+	fonttitle=\bfseries,before upper={\hspace*{-1em}\includegraphics[height=\baselineskip]{example-image-a}~#2},%
+	title after break={\centering\footnotesize\itshape\strut\lstlistingname~\thelstlisting~--~continued},%
+	listing only,listing options={xleftmargin=-1mm},after upper={\centering\strut\lstlistingname~\thelstlisting:~#2},
+	frame hidden,arc=0pt,outer arc=0pt,boxrule=0pt,frame code={\draw[gray,line width=2mm] ([xshift=-0.5pt]frame.north west) -- ([xshift=-0.5pt]frame.south west);},#1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Front Matter - project title, name, supervisor name and date
