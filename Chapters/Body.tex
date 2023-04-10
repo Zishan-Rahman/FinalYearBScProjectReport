@@ -67,4 +67,32 @@ The first 3 iterations of this operation are shown here:
 	\label{fig:lsysiter3}
 \end{figure}
 
-The resulting string can be used to draw a lattice.\cite{lsyspaulbourke}
+The resulting string can be used to draw a lattice.\cite{lsyspaulbourke} Examples of the above grammar in action are below.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.5\textheight]{Images/lsys03.png}
+    \caption{A lattice generated with the example grammar on a custom-written Classic Mac OS application specifically written for working with L-Systems.\cite{lsyspaulbourke}}
+    \label{fig:lattice1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{Images/gd4lattice.png}
+    \caption{A lattice generated with the example grammar on a Godot project for drawing from L-Systems. Source: Initial project written by YouTuber Codat, and converted to Godot 4 (with the addition of the lattice grammar) by me.}
+    \label{fig:my_label}
+\end{figure}
+
+\subsection{Voronoi Cells}
+
+Voronoi cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. Distances between points can be calculated with either the Euclidean or Manhattan distance. 
+
+\subsection{Poisson Disk Sampling}
+
+Poisson disk distributions are an easy way
+
+\subsection{Simplex Noise}
+
+Kenneth Perlin designed a type of noise named after himself (Perlin Noise), in which each pixel of noise is affected by its surroundings. 
+
+\section{Implementations}
