@@ -83,28 +83,44 @@ The resulting string can be used to draw a lattice.\cite{lsyspaulbourke} Example
     \label{fig:lattice2}
 \end{figure}
 
-For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted.
+\subsubsection{A More Complex D0L-System With More Than One Rule}
+
+For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted. This can be represented in Godot like so:
 
 \begin{codeblock}{String replacement for an L-System with 2 rules}
 func get_new_replacement(character: String) -> String:
-    for rule in rules:
-        if rule["from"] == character:
-            return rule["to"]
-    return ""
+	for rule in rules:
+		if rule["from"] == character:
+			return rule["to"]
+	return ""
 
-func size() -> int:
-    return tile_map.x_tile_range * tile_map.y_tile_range
-
-func parse() -> String:
-    var size: int = size()
-    while len(string) <= size:
-        var new_string = ""
-        for character in string:
-            new_string += get_new_replacement(character)
-        string = new_string
-    string = string.substr(0, size)
-    return string
+func replace_string(string: String) -> String:
+	var new_string = ""
+	for character in string:
+		new_string += get_new_replacement(character)
+	return new_string
 \end{codeblock}
+
+This can \textit{then} be used to handle more complex grammars that can handle more than one rule in which characters in strings are replaced by other strings of variable length, as before.
+
+The gramamr in the following example represents a D0L-System, a \textbf{deterministic} L-System using a context-free grammar; the grammar in the first example was \textit{also} deterministic.
+
+\newcommand{\A}{\mbox{a}}
+\newcommand{\B}{\mbox{b}}
+
+For this example, consider a new grammar $G$ with the alphabet $V$, where $\A$ and $\B$ are the only symbols. We start with the following axiom $\omega$, which is just $\A$. We now have a set of rules $P$ which is, this time, of size \textit{2}:
+
+$$ \A \rightarrow \A\B $$
+$$ \B \rightarrow \A $$
+
+The first few steps of the resulting derivation can be modelled like so:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{Images/derivationtree.png}
+    \caption{The first few steps of a derivation of our example grammar.}
+    \label{fig:derivationtree}
+\end{figure}
 
 \subsection{Voronoi Cells}
 
