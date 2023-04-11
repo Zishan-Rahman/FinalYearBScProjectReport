@@ -103,7 +103,7 @@ func replace_string(string: String) -> String:
 
 This can \textit{then} be used to handle more complex grammars that can handle more than one rule in which characters in strings are replaced by other strings of variable length, as before.
 
-The gramamr in the following example represents a D0L-System, a \textbf{deterministic} L-System using a context-free grammar; the grammar in the first example was \textit{also} deterministic.
+The grammar in the following example represents a D0L-System\cite{lsystemintro}, a \textbf{deterministic} L-System using a context-free grammar; the grammar in the first example was \textit{also} deterministic.
 
 \newcommand{\A}{\mbox{a}}
 \newcommand{\B}{\mbox{b}}
@@ -117,8 +117,8 @@ The first few steps of the resulting derivation can be modelled like so:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{Images/derivationtree.png}
-    \caption{The first few steps of a derivation of our example grammar.}
+    \includegraphics[scale=0.5]{Images/derivationtree.png}
+    \caption{The first few steps of a derivation of our example grammar.\cite{lsystemintro}}
     \label{fig:derivationtree}
 \end{figure}
 
@@ -138,10 +138,12 @@ With the Euclidean distance producing a more ``triangulated" tesselation than th
 
 \subsection{Poisson Disk Sampling}
 
-Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement. It takes a 
+Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects.
 
 \subsection{Simplex Noise}
 
 Kenneth Perlin designed a type of noise named after himself (Perlin Noise), in which each pixel of noise is affected by its surroundings. 
 
 \section{Implementations}
+
+Here I will describe, at surface level, the methods I went about implementing the above algorithms and what references I used.
