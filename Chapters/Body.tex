@@ -7,7 +7,7 @@
 
 Hungarian academic Aristid Lindenmayer devised a mathematical model for the reproduction of fungi in 1967.\cite{LINDENMAYER1968300} His model involved a string of symbols, each unique symbol denoting a specific action and/or branch. Essentially, running that initial string, called the \emph{axiom}, through a set of rules (called a \emph{grammar}) gives us an ever-expanding string that is then taken as instructions to draw something from. Lindenmayer Systems, or L-Systems, have since been used in several scenarios beyond its initial purpose of modelling fungi, from trees to fractals. In video games, they are frequently used to aid in the creation of foliage in several environments, as well as buildings and, here, level layouts.
 
-\subsubsection{Types of Lindenmayer System}
+\subsubsection{A Basic 0L-System}
 
 The most basic form of L-System is a \emph{0L}-System, 0 in this case referring to the fact that the grammar is \emph{context-free}.
 
@@ -34,7 +34,7 @@ $$ G = (V, \omega, P) $$
 To implement $G$ in Godot, we can take each rule and replace each string in accordance to our one rule, using the replace method, like so:
 
 \begin{codeblock}{Simple String Replacement for an L-System with 1 rule}
-	string = string.replace(rule["from"], rule["to"]) #Here the rules were stored in dictionaries.
+string = string.replace(rule["from"], rule["to"]) #Here the rules were stored in dictionaries.
 \end{codeblock}
 
 The first 3 iterations of this operation are shown here:
@@ -79,13 +79,46 @@ The resulting string can be used to draw a lattice.\cite{lsyspaulbourke} Example
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{Images/gd4lattice.png}
-    \caption{A lattice generated with the example grammar on a Godot project for drawing from L-Systems. Source: Initial project written by YouTuber Codat\cite{codatGD3LSystemYT}, and converted to Godot 4 (with the addition of the lattice grammar) by me.}
+    \caption{A lattice generated with the example grammar on a Godot project for drawing from L-Systems. Source: Initial project written by YouTuber Codat\cite{codatGD3LSystemYT}\cite{codatGD3LSystemGH}, and converted to Godot 4 (with the addition of the lattice grammar) by me.\cite{codatGD4LSystemGH}}
     \label{fig:lattice2}
 \end{figure}
 
+For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted.
+
+\begin{codeblock}{String replacement for an L-System with 2 rules}
+func get_new_replacement(character: String) -> String:
+    for rule in rules:
+        if rule["from"] == character:
+            return rule["to"]
+    return ""
+
+func size() -> int:
+    return tile_map.x_tile_range * tile_map.y_tile_range
+
+func parse() -> String:
+    var size: int = size()
+    while len(string) <= size:
+        var new_string = ""
+        for character in string:
+            new_string += get_new_replacement(character)
+        string = new_string
+    string = string.substr(0, size)
+    return string
+\end{codeblock}
+
 \subsection{Voronoi Cells}
 
-Voronoi cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. Distances between points can be calculated with either the Euclidean or Manhattan distance. 
+Named after the Ukranian mathematician Georgy Voronoy, Voronoi cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well). The final arrangement of cells represents a Voronoi Diagram or Voronoi Tesselation.
+
+Distances between points can be calculated with either the Euclidean distance:
+
+$$ d_{E}(p, q) = \sqrt{(q_x - p_x)^2 + (q_y - p_y)^2} $$
+
+or the Manhattan distance:
+
+$$ d_{M}(p, q) = |q_x - p_x| + |q_y - p_y| $$
+
+With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry").
 
 \subsection{Poisson Disk Sampling}
 
