@@ -158,4 +158,4 @@ Here I will describe, at surface level, the methods I went about implementing th
 
 The Simplex Noise implementation works with Godot's built-in Noise library. Within a Sprite2D node's Texture attribute, I set a new "NoiseTexture2D" field inside of it. In its "Noise" attribute I created a new "FastNoiseLite" scene, which generates a noise texture for us to use. The seed can be set in the sprite's script file.
 
-As with my other implementations, I have a separate array for trees and another for buildings. For each cell in the TileMap, I then took a 
+As with my other implementations, there are two separate arrays, one for trees and another for buildings. For each cell in the TileMap, I then took the noise pixel from the generated texture at that exact point (scaling with the cell size accordingly), and then, depending on the value retrieved, decided, firstly, whether or not to place a plant/tree tile there and, secondly, whether or not to place a building tile there. As a result, not every cell in the TileMap has tiles on it. On any one of those empty cells, the Player tile will then get placed.
