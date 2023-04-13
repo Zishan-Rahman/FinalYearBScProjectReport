@@ -9,3 +9,6 @@
 *.toc
 *.tps
 /report.synctex.gz
+
+texcount.pl
+report.html
