@@ -48,8 +48,14 @@ This is more a research-oriented project than an implementation-oriented project
 
 \subsection{Note on Differing Versions of Godot}
 
-Godot currently is at version 3, but concurrently there is also Godot 4, which is nearing its release and is in working condition. The latter version of Godot contains several new features and breaking changes, so any project made in Godot 3 won't readily be compatible with Godot 4 (and vice-versa) without making the necessary changes and conversions. I have access to both versions of Godot and, for all the Godot projects I create, which version I'm using will be clearly denoted and clarified.
+Godot currently is at version 3, but concurrently there is also Godot 4, which is nearing its release and is in working condition. The latter version of Godot contains several new features and breaking changes, so any project made in Godot 3 won't readily be compatible with Godot 4 (and vice-versa) without making the necessary changes and conversions. I have access to both versions of Godot and, for all the Godot projects I made and used in this project, I have used Godot 4. Any references to other Godot 3 projects will be clearly denoted as such.
 
 \section{Justifying My Choice of Scenario: A 2D tile-map RPG-style roaming game}
 
-Here, I will justify why I chose this particular scenario for all my algorithm implementations.
+The scenario of my choosing involves a monochrome tile-map created by Kenney.nl in a 2D RPG setting, in which the player character is a hollow ``Golem" that is trying to search for and obtain a ring among a large 72x40 village, filled with trees, buildings and emptiness. The player can ``chow down" trees by simply going to the cells where trees are and making them disappear. However, the player \textit{will} stop at and collide with any buildings in the tile map. When the player collects the ring, they win the game and are able to either close the window or generate a new village to try and collect \textit{another} ring.
+
+The size of the tile map is determined by taking the window size, 1152x640 in \textbf{all} implementations, and then dividing it with the cell size, 16x16 in \textbf{all} implementations (again), hence returning a 72x40 tile map size. Using a large tile map like this, with 2880 available cells in total, allows for easy stress-testing of the algorithms, making them generate level layouts that are sufficiently large enough to produce a quantifiable performance result and time that can be easily compared across implementations, such that we can easily measure how one performs over the other.
+
+The use of a tiled role-playing game scenario, adapted to already-existing procedural generation algorithms, is relatively unusual in the context of procedural generation. However, it \textit{will} allow me to go a degree beyond the scope of what is usually done for procedural content generation in games, which is usually seen in 2D and 3D roguelikes and platformers, as well as some other world-building games such as Minecraft and Terrraria.
+
+\section{Justifying My Choice of Algorithms for the Above Scenario}

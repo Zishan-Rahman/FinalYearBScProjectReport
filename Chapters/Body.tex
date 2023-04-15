@@ -1,7 +1,18 @@
 \chapter{Report Body}
 %The central part of the report usually consists of three or four chapters detailing the technical work undertaken during the project. {\bf{\textcolor{red}{The structure of these chapters is highly project dependent}}}. They can reflect the chronological development of the project, e.g. design, implementation, experimentation, optimisation, evaluation, etc (although this is not always the best approach). However you choose to structure this part of the report, you should make it clear how you arrived at your chosen approach in preference to other alternatives. In terms of the software that you produce, you should describe and justify the design of your programs at some high level, e.g. using OMT, Z, VDL, etc., and you should document any interesting problems with, or features of, your implementation. Integration and testing are also important to discuss in some cases. You may include fragments of your source code in the main body of the report to illustrate points; the full source code is included in an appendix to your written report.
 
+In this chapter, I will explain how each of my chosen algorithms work, and how I went around implementing them as a surface-level explanation. I will then briefly compare what challenges I faced for each of my implementations, and how they compare, both performance-wise and with regards to the kinds of layouts they produce, again as surface-level explanations. I go into greater detail on my implementations in the Implementation section, how the level layouts generated in each algorithm compare with each other in the Design \& Specification section, and how each implementation compares overall (and also performance wise) in the Evaluation section. For this project, I chose to use the following 4 algorithms.
+
+\begin{enumerate}
+    \item Lindenmayer Systems (or L-Systems)
+    \item Perlin/Simplex Noise
+    \item Poisson Disk Sampling
+    \item Voronoi Cells
+\end{enumerate}
+
 \section{Algorithms}
+
+In this section, I will explain how each of the algorithms I implemented work, then I will go into small detail as to how I implemented them. I go into further detail in the ``Implementation" section of this report.
 
 \subsection{Lindenmayer Systems}
 
@@ -122,6 +133,14 @@ The first few steps of the resulting derivation can be modelled like so:
     \label{fig:derivationtree}
 \end{figure}
 
+\subsection{Perlin/Simplex Noise}
+
+Kenneth Perlin designed a type of noise named after himself (Perlin Noise), in which each pixel of noise is affected by its surroundings. 
+
+\subsection{Poisson Disk Sampling}
+
+Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects.
+
 \subsection{Voronoi Cells}
 
 Named after the Ukranian mathematician Georgy Voronoy, Voronoi cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well). The final arrangement of cells represents a Voronoi Diagram or Voronoi Tesselation.
@@ -136,28 +155,38 @@ $$ d_{M}(p, q) = |q_x - p_x| + |q_y - p_y| $$
 
 With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry").
 
-\subsection{Poisson Disk Sampling}
-
-Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects.
-
-\subsection{Simplex Noise}
-
-Kenneth Perlin designed a type of noise named after himself (Perlin Noise), in which each pixel of noise is affected by its surroundings. 
-
 \section{Implementations}
 
 Here I will describe, at surface level, the methods I went about implementing the above algorithms and what references I used.
 
 \subsection{Lindenmayer System}
 
-The implementation of an L-System was very simple. I took inspiration from a YouTube video on implementing an L-System for drawing line graphics in Godot by Codat.\cite{codatGD3LSystemYT} In the code from the Godot 3 project he made in that video\cite{codatGD3LSystemGH}\cite{codatGD3LSystemYT}, he created a custom ``Rule" class in GDScript, with which he defined new rules.
+The implementation of an L-System was very simple. I took inspiration from a YouTube video on implementing an L-System for drawing line graphics in Godot by Codat.\cite{codatGD3LSystemYT} In the code from the Godot 3 project he made in that video\cite{codatGD3LSystemGH}\cite{codatGD3LSystemYT}, he created a custom ``Rule" class in GDScript, with which he defined new rules. I forked his project, converted it to Godot 4 and used it to create the lattice graphics in Figure \ref{fig:lattice2}. I did this mainly as a reference for my implementation of L-Systems in the game itself.
 
-\subsection{Voronoi Cells}
+With the implementation in my \emph{game}, I adapted the \verb|get_new_character| method in that L-System to work with the dictionary I originally implemented my L-System in. The new \verb|get_new_replacement| method in my implementation allows for there to be more than one grammar rule while the L-System still performs as it should. My original L-System iterated through the original string \textit{directly}, which produced unintended consequences in grammars with multiple rules, as seen here when trying to implement the D0L-System I mentioned earlier\cite{lsystemintro}:
 
-\subsection{Poisson Disk Sampling}
+$$ b \rightarrow a \rightarrow aa \rightarrow aaa \rightarrow aaaa \rightarrow aaaaa \ldots $$
 
-\subsection{Simplex Noise}
+By using an empty string buffer and inserting rule replacements there instead, my implementation is now able to perform substitutions accordingly; the correct computation of the D0L-System is denoted in Figure \ref{fig:derivationtree} and repeated below:
+
+$$ b \rightarrow a \rightarrow ab \rightarrow aba \rightarrow abaab \rightarrow abaababa \ldots $$
+
+With the L-System string parsing algorithm in place, the next step was to paint the cells of each tile. With this, I iterated through every cell of the tilemap using a nested for-loop. With the parsed string, I then accessed the character of the string at an incremented index using an iterator variable I defined before the for-loops. The string consists of three different characters repeated multiple times, ``O", ``W" and ``B". For each string index, if the character is ``W", paint a tree, if it is ``B", paint a building, and if it is an ``O", leave the cell blank and paint nothing. The player and ring then get placed afterwards.
+
+Even for a large-sized tile map with 2880 cells, a constant L-System $G$, with the symbols O, W and B and the following grammar
+
+$$ \mbox{O} \rightarrow \mbox{O}\mbox{W}\mbox{O} $$
+$$ \mbox{W} \rightarrow \mbox{W}\mbox{B} $$
+$$ \mbox{B} \rightarrow \mbox{B}\mbox{W}\mbox{O} $$
+
+can parse the axiom OWB, paint tile map tiles with the resulting string \textbf{and} place the player and ring in just a minimum of 19 milliseconds and a maximum of 22 milliseconds.
+
+\subsection{Perlin/Simplex Noise}
 
 The Simplex Noise implementation works with Godot's built-in Noise library. Within a Sprite2D node's Texture attribute, I set a new ``NoiseTexture2D" field inside of it. In its ``Noise" attribute I created a new ``FastNoiseLite" scene, which generates a noise texture for us to use. The seed can be set in the sprite's script file.
 
 As with my other implementations, there are two separate arrays, one for trees and another for buildings. For each cell in the TileMap, I then took the noise pixel from the generated texture at that exact point (scaling with the cell size accordingly), and then, depending on the value retrieved, decided, firstly, whether or not to place a plant/tree tile there and, secondly, whether or not to place a building tile there. As a result, not every cell in the TileMap has tiles on it. On any one of those empty cells, the Player tile will then get placed.
+
+\subsection{Poisson Disk Sampling}
+
+\subsection{Voronoi Cells}
