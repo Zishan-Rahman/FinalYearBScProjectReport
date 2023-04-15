@@ -42,13 +42,13 @@ While a myriad of resources exist for procedurally generated game contents exist
 	\item Compared to Unity and Unreal, Godot is a very light engine with a feature-rich editor, clocking in at under 100MB, with editors for Windows, macOS, Linux and even the web browser. 
 \end{itemize}
 
-By the end of my allotted time, I plan to have implemented several procedurally generated environments in small Godot games, using a myriad of methods (such as Voronoï cell and poisson disk generation) in a myriad of contexts (anything from platformers to first-person games). With these games, I plan for the final report to be the centrepiece of my project, with it containing my research on how each environment was implemented, as well as my findings on the algorithms themselves and how they work.
+By the end of my allotted time, I plan to have implemented several procedurally generated environments in small Godot games, using a myriad of methods (such as Voronoï cells and poisson disk generation) in a myriad of contexts (anything from platformers to first-person games). With these games, I plan for the final report to be the centrepiece of my project, with it containing my research on how each environment was implemented, as well as my findings on the algorithms themselves and how they work.
 
 This is more a research-oriented project than an implementation-oriented project, but the implementations will nonetheless prove that Godot is just as adept at procedural content generation as the other major players in the game engine space, and I will have gained immense knowledge on PCG in the process.
 
 \subsection{Note on Differing Versions of Godot}
 
-Godot currently is at version 3, but concurrently there is also Godot 4, which is nearing its release and is in working condition. The latter version of Godot contains several new features and breaking changes, so any project made in Godot 3 won't readily be compatible with Godot 4 (and vice-versa) without making the necessary changes and conversions. I have access to both versions of Godot and, for all the Godot projects I made and used in this project, I have used Godot 4. Any references to other Godot 3 projects will be clearly denoted as such.
+Godot currently is at version 4, which finally received a stable release in 4\textsuperscript{th} March after years of development, but concurrently there is also Godot 3, the previous stable version which is now a \textbf{L}ong-\textbf{T}erm \textbf{S}upport release. The latter version of Godot contains several new features and breaking changes, so any project made in Godot 3 won't readily be compatible with Godot 4 (and vice-versa) without making the necessary changes and conversions. I have access to both versions of Godot and, for all the Godot projects I made and used in this project, I have used Godot 4. Any references to other Godot 3 projects will be clearly denoted as such.
 
 \section{Justifying My Choice of Scenario: A 2D tile-map RPG-style roaming game}
 
@@ -56,6 +56,19 @@ The scenario of my choosing involves a monochrome tile-map created by Kenney.nl 
 
 The size of the tile map is determined by taking the window size, 1152x640 in \textbf{all} implementations, and then dividing it with the cell size, 16x16 in \textbf{all} implementations (again), hence returning a 72x40 tile map size. Using a large tile map like this, with 2880 available cells in total, allows for easy stress-testing of the algorithms, making them generate level layouts that are sufficiently large enough to produce a quantifiable performance result and time that can be easily compared across implementations, such that we can easily measure how one performs over the other.
 
-The use of a tiled role-playing game scenario, adapted to already-existing procedural generation algorithms, is relatively unusual in the context of procedural generation. However, it \textit{will} allow me to go a degree beyond the scope of what is usually done for procedural content generation in games, which is usually seen in 2D and 3D roguelikes and platformers, as well as some other world-building games such as Minecraft and Terrraria.
+The use of a tiled role-playing game scenario, adapted to already-existing procedural generation algorithms, is relatively unusual in the context of procedural generation. However, it \textit{will} allow me to go a degree beyond the scope of what is usually done for procedural content generation in games, which is usually seen in 2D and 3D roguelikes and platformers, as well as some other world-building games such as Minecraft and Terrraria. The ability for the player character to consume trees and remove them from the level layout by moving into them allows that player to easily move around in what would otherwise be very crowded level layouts that would've been near-impossible to traverse. 
 
 \section{Justifying My Choice of Algorithms for the Above Scenario}
+
+For this project, I intend to use the following procedural content generation algorithms within my scenario:
+
+\begin{itemize}
+    \item Lindenmayer Systems (or L-Systems)
+    \item Perlin and Simplex Noise
+    \item Poisson Disk Sampling/Distribution
+    \item Voronoï Cells
+\end{itemize}
+
+Using an L-System for generating a level layout is relatively uncommon, compared to its use in generating structures such as trees and buildings.
+
+Perlin and Simplex Noise are far more commonly used for level layouts, so I created an implementation of my scenario with one to see how it compares with the others.
