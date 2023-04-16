@@ -7,7 +7,7 @@ In this chapter, I will explain how each of my chosen algorithms work, and how I
     \item Lindenmayer Systems (or L-Systems)
     \item Perlin/Simplex Noise
     \item Poisson Disk Sampling
-    \item Voronoi Cells
+    \item Voronoï Cells
 \end{enumerate}
 
 \section{Algorithms}
@@ -167,7 +167,7 @@ Gradient noise, on the other hand, takes point lattices and instead calculates t
     \label{fig:valueperlincomparison}
 \end{figure}
 
-Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{enwiki:1102898483} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
+Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin Noise also takes a lattice of randomly assigned gradients, but the algorithm interpolates the dot products of those points instead of just their neighouring values.\cite{fastnoiselitedocs} Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{enwiki:1102898483} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
 
 \subsection{Poisson Disk Sampling}
 
@@ -189,7 +189,7 @@ Poisson disk distributions are an easy way to randomly scatter objects across a 
 
 \subsection{Voronoï Cells}
 
-Named after the Ukranian mathematician Georgy Voronoy, Voronoi cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well). The final arrangement of cells represents a Voronoi Diagram or Voronoi Tesselation.
+Named after the Ukranian mathematician Georgy Voronoy, Voronoï cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well). The final arrangement of cells represents a Voronoï Diagram or Voronoï Tesselation.
 
 Distances between points can be calculated with either the Euclidean distance:
 
@@ -199,13 +199,13 @@ or the Manhattan distance:
 
 $$ d_{M}(p, q) = |q_x - p_x| + |q_y - p_y| $$
 
-With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry").
+With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry"). A visual comparison of the kinds of cells generated with either distance calculation is shown in Figure \ref{fig:voronoicomparison}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics{}
-    \caption{Caption}
-    \label{fig:my_label}
+    \includegraphics{Images/Voronoitessellations.jpg}
+    \caption{A visual comparison of the kinds of Voronoï cells generated with the Euclidean and Manhattan distance.\cite{reffortesselations}}
+    \label{fig:voronoicomparison}
 \end{figure}
 
 \section{Implementations}
@@ -242,7 +242,7 @@ As with my other implementations, there are two separate arrays, one for trees a
 
 For the generation of the noise itself, I \textit{could've} added a \verb|Sprite2D| node to the scene tree, the root of which was my \verb|TileMap|, and gave it a \verb|NoiseTexture2D| texture and set its \verb|noise| property to a newly-created \verb|FastNoiseLite| instance, the latter of which contains the actual noise data. In the early stages of this implementation's development, that's what I did, and I created a script that solely set the seed of the \verb|FastNoiseLite| resource to a random integer (using the \verb|randi| method). However, for a more authentic result, and to forgo the need of an additional node and noise texture that will not even be visible in the final product, I decided to create the noise for this algorithm implementation entirely programmatically. I stored the \verb|FastNoiseLite| instance in its own class variable \verb|noise|, and instantiated it with the \verb|set_noise| method when starting the game (the \verb|_ready| function automatically runs when the game starts).
 
-Initially having done the 
+Initially having done the noise integration with a sprite node and noise texture allowed me to experiment with some of the \verb|FastNoiseLite| class's properties. An instance of this class, by default, uses the ``Simplex Smooth" noise algorithm, a version of the Simplex algorithm that produces higher quality noise images at the expense of slower speed. We can also use just ``Simplex" noise for higher speed, as well as the original ``Perlin" noise algorithm. 
 
 \subsection{Poisson Disk Sampling}
 
