@@ -8,9 +8,9 @@ Here, I will provide an abstract level of how I compared the performance of each
 
 \section{Performance}
 
-With the L-System implementation, I had no problems running the game very quickly on my machine, and quickly got results.
+With the L-System implementation, I had no problems running the game very quickly on my machine, and quickly got satisfactory results results.
 
-With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactroy level layout.
+With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout.
 
 Voronoï Cells took the longest to compute on average. 
 
@@ -18,4 +18,14 @@ Voronoï Cells took the longest to compute on average.
 
 Of the 4 implementations I made, the Noise and Poisson Disk Sampling implementation were by far the most similar, followed by the L-System implementation, and then the Voronoï Cells implementation, which was far and away the most unique.
 
-While the noise implementations were 
+While the noise implementations varied greatly depending on what settings were used, and the way the implementation was designed allowed for very many possibilities as to how the noise would turn out (and how it would affect the final level), the results that I found produced the most similar results to that of the Poisson Disk Sampling implementation had the following configurations:
+
+\begin{itemize}
+    \item Noise Type (\verb|noise_type|): Simplex Smooth
+    \item Fractal Type (\verb|fractal_type|): Fractal None
+    \item Cellular Distance Type/Function (\verb|cellular_distance_type|): Distance Euclidean
+    \item Noise Frequency (\verb|noise_frequency|): 0.894
+    \item Tree Cap (\verb|tree_cap|): -0.048
+    \item Building Cap (\verb|building_cap|): -0.252
+    \item Building Overtakes Tree (\verb|building_overtakes_tree|): 0.12
+\end{itemize}
