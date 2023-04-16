@@ -240,6 +240,10 @@ The Simplex Noise implementation works with Godot's built-in Noise library. With
 
 As with my other implementations, there are two separate arrays, one for trees and another for buildings. For each cell in the TileMap, I then took the noise pixel from the generated texture at that exact point (scaling with the cell size accordingly), using the \verb|get_noise_2d| method built-in with Godot, and then, depending on the value retrieved, decided, firstly, whether or not to place a plant/tree tile there and, secondly, whether or not to place a building tile there. As a result, not every cell in the TileMap has tiles on it. On any one of those empty cells, the Player tile will then get placed.
 
+For the generation of the noise itself, I \textit{could've} added a \verb|Sprite2D| node to the scene tree, the root of which was my \verb|TileMap|, and gave it a \verb|NoiseTexture2D| texture and set its \verb|noise| property to a newly-created \verb|FastNoiseLite| instance, the latter of which contains the actual noise data. In the early stages of this implementation's development, that's what I did, and I created a script that solely set the seed of the \verb|FastNoiseLite| resource to a random integer (using the \verb|randi| method). However, for a more authentic result, and to forgo the need of an additional node and noise texture that will not even be visible in the final product, I decided to create the noise for this algorithm implementation entirely programmatically. I stored the \verb|FastNoiseLite| instance in its own class variable \verb|noise|, and instantiated it with the \verb|set_noise| method when starting the game (the \verb|_ready| function automatically runs when the game starts).
+
+Initially having done the 
+
 \subsection{Poisson Disk Sampling}
 
 \subsection{Voronoï Cells}
