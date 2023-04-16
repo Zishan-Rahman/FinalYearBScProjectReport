@@ -141,7 +141,7 @@ However, there exists several types of \textbf{value} and \textbf{gradient} nois
 
 Value noise simply takes a lattice of points with random values and then interpolates those points based on their surrounding values. This \textit{can} be used as a procedural texture. However, due to the simple nature of the algorithm, it's possible that the difference between several values in a region is minimal, while in other regions the values may differ immensely, resulting in a noise image that is not very smooth.
 
-Gradient noise, on the other hand, takes point lattices and instead calculates the interpolation between tangents. Since both tangents between a curve must be collinear, the flat and bumpy curves produced by value noise's interpolation calculations are now much less likely to be returned, as seen in Figure \ref{fig:valueperlincomparison}. This results in noise images of higher and more appealing visual quality as, to quote a response from Stack Exchange by Hernan J. González, ``it cuts low frequencies and emphasizes frequencies around and above the grid spacing."
+Gradient noise, on the other hand, takes point lattices and instead calculates the interpolation between tangents.\cite{perlinvalue} Since both tangents between a curve must be collinear\cite{perlinvalue}, the flat and bumpy curves produced by value noise's interpolation calculations are now much less likely to be returned, as seen in Figure \ref{fig:valueperlincomparison}.\cite{perlinvalue} This results in noise images of higher and more appealing visual quality as, to quote a response from Stack Exchange by Hernan J. González\cite{gradientvalue}, ``it cuts low frequencies and emphasizes frequencies around and above the grid spacing."
 
 \begin{figure}[H]
     \centering
@@ -153,13 +153,15 @@ Gradient noise, on the other hand, takes point lattices and instead calculates t
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Images/valueperlincomparison.png}
-    \caption{A comparison between the kinds of curves produced by Value noise interpolation and Perlin (and other Gradient) noise interpolation.}
+    \caption{A comparison between the kinds of curves produced by Value noise interpolation and Perlin (and other Gradient) noise interpolation.\cite{perlinvalue}}
     \label{fig:valueperlincomparison}
 \end{figure}
 
+Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin filed a patent on his work in 2002 that was granted in 2005, which prompted the creation of the OpenSimplex noise algorithm for free use; the patent has since expired in 2022.
+
 \subsection{Poisson Disk Sampling}
 
-Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects. Points are placed over a plane, with a single point placed randomly and subsequent points calculated such that a single point has no other point lying within a given radius of said point. Different implementations of Poisson disk distributions or samples can accommodate multiple radii for points in a plane, and some implementations produce \textit{maximal} samples- that is, a set of samples that fully cover the given plane, while still adhering to the principle that no single point has other points lying within its radius (the implementation I made for this project does \textbf{not} guarantee maximality).\\The following are some examples of Poisson disk distribution in action:
+Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects. Points are placed over a plane, with a single point placed randomly and subsequent points calculated such that a single point has no other point lying within a given radius of said point. Different implementations of Poisson disk distributions or samples can accommodate multiple radii for points in a plane, and some implementations produce \textit{maximal} samples- that is, a set of samples that fully cover the given plane, while still adhering to the principle that no single point has other points lying within its radius (the implementation I made for this project does \textbf{not} guarantee maximality, however).\\The following are some examples of Poisson disk distribution in action:
 
 \begin{figure}[H]
     \centering
