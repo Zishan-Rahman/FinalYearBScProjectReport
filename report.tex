@@ -47,14 +47,14 @@
 	belowskip=\baselineskip
 }
 
-\usepackage{tcolorbox}
-\tcbuselibrary{skins,breakable,listings}
-\newtcblisting[use counter=lstlisting]{codeblock}[2][]{%
-	enhanced,noparskip,breakable,colback=light-gray,colframe=DarkSlateGray,opacitybacktitle=.8,%
-	fonttitle=\bfseries,before upper={\hspace*{-1em}\includegraphics[height=\baselineskip]{example-image-a}~#2},%
-	title after break={\centering\footnotesize\itshape\strut\lstlistingname~\thelstlisting~--~continued},%
-	listing only,listing options={xleftmargin=-1mm},after upper={\centering\strut\lstlistingname~\thelstlisting:~#2},
-	frame hidden,arc=0pt,outer arc=0pt,boxrule=0pt,frame code={\draw[gray,line width=2mm] ([xshift=-0.5pt]frame.north west) -- ([xshift=-0.5pt]frame.south west);},#1}
+% \usepackage{tcolorbox}
+% \tcbuselibrary{skins,breakable,listings}
+% \newtcblisting[use counter=lstlisting]{codeblock}[2][]{%
+% 	enhanced,noparskip,breakable,colback=light-gray,colframe=DarkSlateGray,opacitybacktitle=.8,%
+% 	fonttitle=\bfseries,before upper={\hspace*{-1em}\includegraphics[height=\baselineskip]{example-image-a}~#2},%
+% 	title after break={\centering\footnotesize\itshape\strut\lstlistingname~\thelstlisting~--~continued},%
+% 	listing only,listing options={xleftmargin=-1mm},after upper={\centering\strut\lstlistingname~\thelstlisting:~#2},
+% 	frame hidden,arc=0pt,outer arc=0pt,boxrule=0pt,frame code={\draw[gray,line width=2mm] ([xshift=-0.5pt]frame.north west) -- ([xshift=-0.5pt]frame.south west);},#1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Front Matter - project title, name, supervisor name and date

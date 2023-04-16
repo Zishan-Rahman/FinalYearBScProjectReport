@@ -212,6 +212,17 @@ With the Euclidean distance producing a more ``triangulated" tesselation than th
 
 Here I will describe, at surface level, the methods I went about implementing the above algorithms and what references I used.
 
+\subsection{Commonalities Between Implementations}
+
+To implement the same scenario, aforementioned in the background of this report, across all 4 algorithm implementations, I had to include some of the same code and functions, as well as the same tile set shown in Figure \ref{fig:kenneyset}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/monochrome_packed.png}
+    \caption{The tileset used for all 4 implementations of my scenario with PCG algorithms.\cite{kenneyassetsused} Of all the 1078 tiles, of size 16x16, in this tileset, only 42 of them get referenced in my code.}
+    \label{fig:kenneyset}
+\end{figure}
+
 \subsection{Lindenmayer System}
 
 The implementation of an L-System was very simple. I took inspiration from a YouTube video on implementing an L-System for drawing line graphics in Godot by Codat.\cite{codatGD3LSystemYT} In the code from the Godot 3 project he made in that video\cite{codatGD3LSystemGH}\cite{codatGD3LSystemYT}, he created a custom ``Rule" class in GDScript, with which he defined new rules. I forked his project, converted it to Godot 4 and used it to create the lattice graphics in Figure \ref{fig:lattice2}.\cite{codatGD4LSystemGH} I did this mainly as a reference for my implementation of L-Systems in the game itself.
@@ -232,7 +243,7 @@ $$ \mbox{O} \rightarrow \mbox{O}\mbox{W}\mbox{O} $$
 $$ \mbox{W} \rightarrow \mbox{W}\mbox{B} $$
 $$ \mbox{B} \rightarrow \mbox{B}\mbox{W}\mbox{O} $$
 
-can parse the axiom OWB, paint tile map tiles with the resulting string \textbf{and} place the player and ring in just a minimum of 19 milliseconds and a maximum of 22 milliseconds.
+can parse the axiom OWB, paint tile map tiles with the resulting string \textbf{and} place the player and ring in just 19 milliseconds on average. This was the default grammar used by the L-System in the game. I also included 3 more grammars, one that generated more buildings (and impossible level layouts), another that generated more trees and another that generated more empty space. These can be easily selected with the \verb|ruleset| export variable in the Godot editor. Further variance can be added with the addition of a randomly generated axiom, capped at a maximum height or smaller (minimum 1). If said option is enabled in the Godot editor, the default value in the export variable for setting this cap is 10, and since it is an export variable, it too can be adjusted in the editor as the developer sees fit.
 
 \subsection{Perlin/Simplex Noise}
 
@@ -252,7 +263,9 @@ In terms of determining whether or not to place buildings or trees (or nothing),
 
 The Poisson Disk Sampling implementation was based on a Unity tutorial by Sebastian Lague\cite{seblaguetuteYT}\cite{seblaguetuteGH}, in which he used his algorithm to draw points onto a grid. The way he wrote \textit{his} implementation was such that the radius of the circle would be equal to the diagonal of each square in the grid by default (when the radius was 1.0), ensuring that no point ever lies within the radius of another.
 
-My implementation of the Poisson Disk Sampling algorithm mostly took from him, with some changes. Lague did his implementation in the C\# language and, while Godot 4 \textit{does} have a separate version with C\# and .NET support, I opted to use the standard GDScript distribution of Godot 4 with all of my implementations. This meant that I had to adapt the code to work with not just the tile map but also the way GDScript worked. For one thing, the \verb|grid| array in the \verb|generate_points| had to be manually initialised by array an  
+My implementation of the Poisson Disk Sampling algorithm mostly took from him, with some changes. Lague did his implementation in the C\# language and, while Godot 4 \textit{does} have a separate version with C\# and .NET support, I opted to use the standard GDScript distribution of Godot 4 with all of my implementations. This meant that I had to adapt the code to work with not just the tile map but also the way GDScript worked. For one thing, the \verb|grid| array in the \verb|generate_points| had to be manually initialised by inserting arrays into an empty array, the quantity determined by what would have been the outer length of the 2D array (and what basically \textit{was} this in Lague's implementation), that being the ceiling function of the x-dimension of the sample region size divided by the cell size. From there, in each of the nested arrays, the value 0 had to be programatically inserted to all of them, the quantity of the \textit{zeroes} also being determined by what would have been the \textit{inner} length of the 2D array (and what basically \textit{was} this in Lague's implementation), that being the ceiling function of the y-dimension of the sample region size divided by the cell size.
+
+Adapting Lague's implementation from C\# and Unity to GDScript and Godot involved some extensive research into Unity's API. When calculating the angle in \verb|GeneratePoints|/\verb|generate_points|, for example, the equivalent of Unity's \verb|Random.value| in Godot is \verb|randf| (which \textit{has} no static class to be called from). Furthermore, GDScript has a \verb|TAU| constant that does the \verb|Mathf.PI * 2| calculation done in Lague's Unity implementation. The \verb|sqrMagnitude| method used in Lague's \verb|isValid| function becomes \verb|length_squared| in my \verb|is_valid| method. When implementing \verb|isValid| in GDScript I also had to make sure the inner and outer dimensions of the grid could be adequately accessed. I go over how I did that in the ``Implementation" section of this report.
 
 \subsection{Voronoï Cells}
 
