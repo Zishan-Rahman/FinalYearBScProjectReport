@@ -167,7 +167,7 @@ Gradient noise, on the other hand, takes point lattices and instead calculates t
     \label{fig:valueperlincomparison}
 \end{figure}
 
-Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin Noise also takes a lattice of randomly assigned gradients, but the algorithm interpolates the dot products of those points instead of just their neighouring values.\cite{fastnoiselitedocs} Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{enwiki:1102898483} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
+Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin Noise also takes a lattice of randomly assigned gradients, but the algorithm interpolates the dot products of those points instead of just their neighouring values.\cite{fastnoiselitedocs} Simplex noise, meanwhile, tries to reduce the grid artifacts caused by the original algorithm, and has the added benefit of scaling better to larger dimensions.\cite{pcgwikisimplex} Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{enwiki:1102898483} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
 
 \subsection{Poisson Disk Sampling}
 
@@ -250,7 +250,7 @@ In terms of determining whether or not to place buildings or trees (or nothing),
 
 \subsection{Poisson Disk Sampling}
 
-
+The Poisson Disk Sampling implementation was based on a Unity tutorial by Sebastian Lague, in which he used his algorithm to draw points onto a grid. The way he wrote \textit{his} implementation was such that the radius of the circle would be equal to the diagonal of each square in the grid by default (when the radius was 1.0), ensuring that no point ever lies within the radius of another.   
 
 \subsection{Voronoï Cells}
 
