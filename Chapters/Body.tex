@@ -44,9 +44,14 @@ $$ G = (V, \omega, P) $$
 
 To implement $G$ in Godot, we can take each rule and replace each string in accordance to our one rule, using the replace method, like so:
 
-\begin{codeblock}{Simple String Replacement for an L-System with 1 rule}
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
 string = string.replace(rule["from"], rule["to"]) #Here the rules were stored in dictionaries.
-\end{codeblock}
+    \end{lstlisting}
+    \caption{A line of code that demonstrates directly replacing characters in a string according to our L-System grammar's rules.}
+    \label{fig:lsys-snippet-1}
+\end{figure}
 
 The first 3 iterations of this operation are shown here:
 
@@ -96,21 +101,26 @@ The resulting string can be used to draw a lattice.\cite{lsyspaulbourke} Example
 
 \subsubsection{A More Complex D0L-System With More Than One Rule}
 
-For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted. This can be represented in Godot like so:
+For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted. This can be represented in Godot as demonstrated in Figure \ref{fig:lsys-snippet-2}, which uses two functions to perform string replacement. The first function \verb|get_new_replacement| performs the character replacement according to the L-System's grammar rules, while the second function \verb|replace_string| uses a string builder variable to allow for replacement of characters without directly affecting the original string and causing unwanted side effects.
 
-\begin{codeblock}{String replacement for an L-System with 2 rules}
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
 func get_new_replacement(character: String) -> String:
 	for rule in rules:
 		if rule["from"] == character:
 			return rule["to"]
-	return ""
+	return character
 
 func replace_string(string: String) -> String:
 	var new_string = ""
 	for character in string:
 		new_string += get_new_replacement(character)
 	return new_string
-\end{codeblock}
+    \end{lstlisting}
+    \caption{Two GDScript functions for replacing characters in an L-System grammar with more than one rule.}
+    \label{fig:lsys-snippet-2}
+\end{figure}
 
 This can \textit{then} be used to handle more complex grammars that can handle more than one rule in which characters in strings are replaced by other strings of variable length, as before.
 
