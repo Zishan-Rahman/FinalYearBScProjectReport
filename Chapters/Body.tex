@@ -135,7 +135,27 @@ The first few steps of the resulting derivation can be modelled like so:
 
 \subsection{Perlin/Simplex Noise}
 
-Traditionally, white noise images, and most other noise types, place noise pixels completely randomly, without each pixel considering the values of its neighbours. 
+Traditionally, white noise images, and most other noise types, place noise pixels completely randomly, without each pixel considering the values of its neighbours\cite{gd3perlinnoise}, as you can see in Figure \ref{fig:whitenoisepic}.
+
+However, there exists several types of \textbf{value} and \textbf{gradient} noise that \textit{do} take surrounding pixel values into consideration, and will therefore serve more use in building levels in our games.
+
+Value noise simply takes a lattice of points with random values and then interpolates those points based on their surrounding values. This \textit{can} be used as a procedural texture. However, due to the simple nature of the algorithm, it's possible that the difference between several values in a region is minimal, while in other regions the values may differ immensely, resulting in a noise image that is not very smooth.
+
+Gradient noise, on the other hand, takes point lattices and instead calculates the interpolation between tangents. Since both tangents between a curve must be collinear, the flat and bumpy curves produced by value noise's interpolation calculations are now much less likely to be returned, as seen in Figure \ref{fig:valueperlincomparison}. This results in noise images of higher and more appealing visual quality as, to quote a response from Stack Exchange by Hernan J. González, ``it cuts low frequencies and emphasizes frequencies around and above the grid spacing."
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/whitenoisepic.png}
+    \caption{A white noise picture generated with Robson's white noise image generator.\cite{whitenoisepicgen}\\Settings: 640 squares horizontally, 480 squares vertically, size of squares 1, colours greyscale, bias none.}
+    \label{fig:whitenoisepic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/valueperlincomparison.png}
+    \caption{A comparison between the kinds of curves produced by Value noise interpolation and Perlin (and other Gradient) noise interpolation.}
+    \label{fig:valueperlincomparison}
+\end{figure}
 
 \subsection{Poisson Disk Sampling}
 
