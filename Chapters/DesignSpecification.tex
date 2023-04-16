@@ -12,7 +12,7 @@ With the L-System implementation, I had no problems running the game very quickl
 
 With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout.
 
-Voronoï Cells took the longest to compute on average. 
+Voronoï Cells took the longest to compute on average. Computations with the Euclidean distance measurement took longer than those measured with the Manhattan distance.
 
 \section{Layouts}
 

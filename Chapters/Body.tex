@@ -250,7 +250,9 @@ In terms of determining whether or not to place buildings or trees (or nothing),
 
 \subsection{Poisson Disk Sampling}
 
-The Poisson Disk Sampling implementation was based on a Unity tutorial by Sebastian Lague, in which he used his algorithm to draw points onto a grid. The way he wrote \textit{his} implementation was such that the radius of the circle would be equal to the diagonal of each square in the grid by default (when the radius was 1.0), ensuring that no point ever lies within the radius of another.   
+The Poisson Disk Sampling implementation was based on a Unity tutorial by Sebastian Lague\cite{seblaguetuteYT}\cite{seblaguetuteGH}, in which he used his algorithm to draw points onto a grid. The way he wrote \textit{his} implementation was such that the radius of the circle would be equal to the diagonal of each square in the grid by default (when the radius was 1.0), ensuring that no point ever lies within the radius of another.
+
+My implementation of the Poisson Disk Sampling algorithm mostly took from him, with some changes. Lague did his implementation in the C\# language and, while Godot 4 \textit{does} have a separate version with C\# and .NET support, I opted to use the standard GDScript distribution of Godot 4 with all of my implementations. This meant that I had to adapt the code to work with not just the tile map but also the way GDScript worked. For one thing, the \verb|grid| array in the \verb|generate_points| had to be manually initialised by array an  
 
 \subsection{Voronoï Cells}
 
