@@ -135,7 +135,7 @@ The first few steps of the resulting derivation can be modelled like so:
 
 \subsection{Perlin/Simplex Noise}
 
-Kenneth Perlin designed a type of noise named after himself (Perlin Noise), in which each pixel of noise is affected by its surroundings. 
+Traditionally, white noise images, and most other noise types, place noise pixels completely randomly, without each pixel considering the values of its neighbours. 
 
 \subsection{Poisson Disk Sampling}
 
@@ -155,7 +155,7 @@ Poisson disk distributions are an easy way to randomly scatter objects across a 
     \label{fig:pygamepoisson}
 \end{figure}
 
-\subsection{Voronoi Cells}
+\subsection{Voronoï Cells}
 
 Named after the Ukranian mathematician Georgy Voronoy, Voronoi cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well). The final arrangement of cells represents a Voronoi Diagram or Voronoi Tesselation.
 
@@ -199,8 +199,8 @@ can parse the axiom OWB, paint tile map tiles with the resulting string \textbf{
 
 The Simplex Noise implementation works with Godot's built-in Noise library. Within a Sprite2D node's Texture attribute, I set a new ``NoiseTexture2D" field inside of it. In its ``Noise" attribute I created a new ``FastNoiseLite" scene, which generates a noise texture for us to use. The seed can be set in the sprite's script file.
 
-As with my other implementations, there are two separate arrays, one for trees and another for buildings. For each cell in the TileMap, I then took the noise pixel from the generated texture at that exact point (scaling with the cell size accordingly), and then, depending on the value retrieved, decided, firstly, whether or not to place a plant/tree tile there and, secondly, whether or not to place a building tile there. As a result, not every cell in the TileMap has tiles on it. On any one of those empty cells, the Player tile will then get placed.
+As with my other implementations, there are two separate arrays, one for trees and another for buildings. For each cell in the TileMap, I then took the noise pixel from the generated texture at that exact point (scaling with the cell size accordingly), using the \verb|get_noise_2d| method built-in with Godot, and then, depending on the value retrieved, decided, firstly, whether or not to place a plant/tree tile there and, secondly, whether or not to place a building tile there. As a result, not every cell in the TileMap has tiles on it. On any one of those empty cells, the Player tile will then get placed.
 
 \subsection{Poisson Disk Sampling}
 
-\subsection{Voronoi Cells}
+\subsection{Voronoï Cells}
