@@ -35,6 +35,57 @@
     title     = {Infiniteness and Boundedness in 0L, DT0L, and T0L Systems},
     year      = {2013}
 }
+@inproceedings{10.1145/122718.122736,
+    abstract  = {Nonuniform sampling of images is a useful technique in computer graphics, because a properly designed pattern of samples can make aliasing take the form of high-frequency random noise. In this paper, the technique of nonuniform sampling is extended from two dimensions to include the extra parameter dimensions of distribution ray tracing. A condition for optimality is suggested, and algorithms for approximating optimal sampling are developed. The technique is demonstrated at low sampling densities, so the characteristics of aliasing noise are clearly visible. At supersampling rates, this technique should move noise into frequencies above the passband of the pixel-reconstruction filter.},
+    address   = {New York, NY, USA},
+    author    = {Mitchell, Don P.},
+    booktitle = {Proceedings of the 18th Annual Conference on Computer Graphics and Interactive Techniques},
+    doi       = {10.1145/122718.122736},
+    isbn      = {0897914368},
+    keywords  = {distribution Ray tracing, nonuniform sampling, noise perception, antialiasing},
+    numpages  = {8},
+    pages     = {157–164},
+    publisher = {Association for Computing Machinery},
+    series    = {SIGGRAPH '91},
+    title     = {Spectrally Optimal Sampling for Distribution Ray Tracing},
+    url       = {https://doi.org/10.1145/122718.122736},
+    year      = {1991}
+}
+@article{10.1145/127719.122736,
+    abstract   = {Nonuniform sampling of images is a useful technique in computer graphics, because a properly designed pattern of samples can make aliasing take the form of high-frequency random noise. In this paper, the technique of nonuniform sampling is extended from two dimensions to include the extra parameter dimensions of distribution ray tracing. A condition for optimality is suggested, and algorithms for approximating optimal sampling are developed. The technique is demonstrated at low sampling densities, so the characteristics of aliasing noise are clearly visible. At supersampling rates, this technique should move noise into frequencies above the passband of the pixel-reconstruction filter.},
+    address    = {New York, NY, USA},
+    author     = {Mitchell, Don P.},
+    doi        = {10.1145/127719.122736},
+    issn       = {0097-8930},
+    issue_date = {July 1991},
+    journal    = {SIGGRAPH Comput. Graph.},
+    keywords   = {distribution Ray tracing, antialiasing, nonuniform sampling, noise perception},
+    month      = {jul},
+    number     = {4},
+    numpages   = {8},
+    pages      = {157–164},
+    publisher  = {Association for Computing Machinery},
+    title      = {Spectrally Optimal Sampling for Distribution Ray Tracing},
+    url        = {https://doi.org/10.1145/127719.122736},
+    volume     = {25},
+    year       = {1991}
+}
+@inproceedings{10.1145/1278780.1278807,
+    abstract  = {In many applications in graphics, particularly rendering, generating samples from a blue noise distribution is important. However, existing efficient techniques do not easily generalize beyond two dimensions. Here I demonstrate a simple modification to dart throwing which permits generation of Poisson disk samples in O(N) time, easily implemented in arbitrary dimension.},
+    address   = {New York, NY, USA},
+    author    = {Bridson, Robert},
+    booktitle = {ACM SIGGRAPH 2007 Sketches},
+    doi       = {10.1145/1278780.1278807},
+    isbn      = {9781450347266},
+    keywords  = {Poisson disk, blue noise, sampling},
+    location  = {San Diego, California},
+    pages     = {22–es},
+    publisher = {Association for Computing Machinery},
+    series    = {SIGGRAPH '07},
+    title     = {Fast Poisson Disk Sampling in Arbitrary Dimensions},
+    url       = {https://doi.org/10.1145/1278780.1278807},
+    year      = {2007}
+}
 @inproceedings{10.1145/1964921.1964944,
     abstract  = {We solve the problem of generating a uniform Poisson-disk sampling that is both maximal and unbiased over bounded non-convex domains. To our knowledge this is the first provably correct algorithm with time and space dependent only on the number of points produced. Our method has two phases, both based on classical dart-throwing. The first phase uses a background grid of square cells to rapidly create an unbiased, near-maximal covering of the domain. The second phase completes the maximal covering by calculating the connected components of the remaining uncovered voids, and by using their geometry to efficiently place unbiased samples that cover them. The second phase converges quickly, overcoming a common difficulty in dart-throwing methods. The deterministic memory is O(n) and the expected running time is O(n log n), where n is the output size, the number of points in the final sample. Our serial implementation verifies that the log n dependence is minor, and nearly O(n) performance for both time and memory is achieved in practice. We also present a parallel implementation on GPUs to demonstrate the parallel-friendly nature of our method, which achieves 2.4x the performance of our serial version.},
     address   = {New York, NY, USA},
@@ -230,6 +281,14 @@
     publisher = {Wikidot},
     title     = {Voronoi Diagram - Procedural Content Generation Wiki},
     url       = {http://pcg.wikidot.com/pcg-algorithm:voronoi-diagram}
+}
+@online{pdshistory,
+    author = {Philippe Rivière and Jacob Rus},
+    month  = jun,
+    note   = {[Online, Accessed 17-April-2023]},
+    title  = {Poisson disk sampling functions},
+    url    = {https://observablehq.com/@fil/poisson-distribution-generators},
+    year   = {2022}
 }
 @misc{perlinpatent,
     author       = {Kenneth H. Perlin},
