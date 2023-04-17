@@ -169,6 +169,8 @@ Gradient noise, on the other hand, takes point lattices and instead calculates t
 
 Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin Noise also takes a lattice of randomly assigned gradients, but the algorithm interpolates the dot products of those points instead of just their neighouring values.\cite{fastnoiselitedocs} Simplex noise, meanwhile, tries to reduce the grid artifacts caused by the original algorithm, and has the added benefit of scaling better to larger dimensions.\cite{pcgwikisimplex} Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{enwiki:1102898483} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
 
+Godot 3 previously featured an OpenSimplexNoise class for generating noise textures, which used the OpenSimplex algorithm. This algorithm 
+
 \subsection{Poisson Disk Sampling}
 
 Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects. Points are placed over a plane, with a single point placed randomly and subsequent points calculated such that a single point has no other point lying within a given radius of said point. Different implementations of Poisson disk distributions or samples can accommodate multiple radii for points in a plane, and some implementations produce \textit{maximal} samples- that is, a set of samples that fully cover the given plane, while still adhering to the principle that no single point has other points lying within its radius\cite{10.1145/1964921.1964944} (the implementation I made for this project does \textbf{not} guarantee maximality, however).
@@ -201,7 +203,7 @@ or the Manhattan distance:
 
 $$ d_{M}(p, q) = |q_x - p_x| + |q_y - p_y| $$
 
-With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry"). A visual comparison of the kinds of cells generated with either distance calculation is shown in Figure \ref{fig:voronoicomparison}.
+With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, with straighter diagonals and cells shaped like irregular polygons, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry"). A visual comparison of the kinds of cells generated with either distance calculation is shown in Figure \ref{fig:voronoicomparison}.
 
 \begin{figure}[H]
     \centering
