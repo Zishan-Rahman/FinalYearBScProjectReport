@@ -5,4 +5,101 @@
 
 Here I will go a bit deeper as to how I made each algorithm work. Where possible, I plan to use code snippets from the work I have done to justify how and why things were implemented the way they were.
 
-\section{Section Heading}
+\section{Poisson Disk Sampling}
+
+To be able to access the inner and outer grid sizes in my implementation of this algorithm, since GDScript does not have a concept of different \verb|Array|s and lists, I stored the lengths of the inner and outer grid in local variables in the \verb|generate_points| function. Those local variables, \verb|grid_x_axis_size| and \verb|grid_y_axis_size| as shown in Figures \ref{fig:pds1} and \ref{fig:pds2}, essentially store the same grid size values as in Lague's implementation, right down to performing the same division in a ceiling function, to the inner grid and the outer grid respectively. Since these dimensions would also be needed for \verb|is_valid|, instead of creating 2 more script variables, I instead took them in as 2 additional method parameters, as shown in Figures \ref{fig:pds3} and \ref{fig:pds4}, and used them accordingly when calculating the maximum and minimum bounds for searching the nearest points of the cell, as shown in \ref{fig:pds5}. Doing it this way ensured that the computation of this algorithm would stay efficient and not stall with an adequate (not too high) number of rejection samples.
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+var grid_x_axis_size: int = ceili(sample_region_size.x/cell_size)
+var grid_y_axis_size: int = ceili(sample_region_size.y/cell_size)
+    \end{lstlisting}
+    \caption{The lines used to determine the inner and outer dimensions of the grid array.}
+    \label{fig:pds1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+for i in range(grid_x_axis_size):
+	grid.append([])
+	for j in range(grid_y_axis_size):
+		grid[i].append(0)
+    \end{lstlisting}
+    \caption{The nested for-loop that initialises the grid array. First, each inner array is initialised and inserted, then a number of zeroes, determined by the grid's y-dimension, are inserted.}
+    \label{fig:pds2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+if is_valid(candidate, sample_region_size, cell_size, radius, points, grid, grid_x_axis_size, grid_y_axis_size):
+    \end{lstlisting}
+    \caption{The line that uses the grid's x and y dimensions as parameters. This calls the is\_valid method using those additional parameters (see Figure \ref{fig:pds4}).}
+    \label{fig:pds3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func is_valid(candidate: Vector2, sample_region_size: Vector2, cell_size: float, radius: float, points: Array[Vector2], grid: Array[Array], grid_x_axis_size: int, grid_y_axis_size: int) -> bool
+    \end{lstlisting}
+    \caption{The function is\_valid, which takes in 2 additional parameters denoting the x and y dimensions of the grid array used in generate\_points.}
+    \label{fig:pds4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+var search_end_x: int = min(cell_x + 2, grid_x_axis_size - 1)
+var search_end_y: int = min(cell_y + 2, grid_y_axis_size - 1)
+    \end{lstlisting}
+    \caption{The relevant lines of code in is\_valid that reference the grid's x and y dimensions, stored in additional variables as aforementioned.}
+    \label{fig:pds5}
+\end{figure}
+
+\section{Voronoï Cells}
+
+The original JavaScript implementation, as mentioned before, had a \verb|randRange| function that I took out, but there was also an additional \verb|mapSize| parameter in \verb|definePoints| that, in \textit{my} \verb|define_points| function, didn't really need, since I made sure the map's dimensions were readily accessible via the \verb|x_tile_range| and \verb|y_tile_range| script variable. I therefore took out the second parameter in \verb|define_points|, as shown in Figure \ref{fig:voronoi1}, and substituted it with \verb|x_tile_range| and \verb|y_tile_range| accordingly, as shown in Figure \ref{fig:voronoi3}.
+
+The type of each Voronoï cell was determined by taking, and then deleting, a value from the \verb|types| array. Said array is local to that function, and it is initialised by duplicating the \verb|trees| array, then appending it with the \verb|buildings| array, making sure the same type cannot be used for a Voronoï cell twice. Duplicating the array before merging it essentially makes sure that the \textit{original} \verb|trees| array is not affected by deletions performed on the \verb|types| array. This computation is shown in Figure \ref{fig:voronoi2}, and the deletion operation is shown in Figure \ref{fig:voronoi4}.
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func define_points(num_points: int) -> void:
+    \end{lstlisting}
+    \caption{The define\_points function header, with no argument for the map's size. The num\_points value that gets taken in during runtime is determined by the script's export variable random\_starting\_points.}
+    \label{fig:voronoi1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+var types: Array[Vector2i] = trees.duplicate()
+types.append_array(buildings)
+    \end{lstlisting}
+    \caption{The types array being initialised in define\_points, with its values taken from the trees and buildings arrays, such that no type can be used for a cell twice, while also making sure that the original trees and buildings arrays are not affected by the deletions on types.}
+    \label{fig:voronoi2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+var x: int = randi_range(0, x_tile_range)
+var y: int = randi_range(0, y_tile_range)
+    \end{lstlisting}
+    \caption{Godot's built-in randi\_range function being used in place of a self-defined one in define\_points.}
+    \label{fig:voronoi3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+var type: Vector2i = types.pick_random()
+types.erase(type)
+    \end{lstlisting}
+    \caption{The types of each Voronoï cell being picked and the erased in define\_points.}
+    \label{fig:voronoi4}
+\end{figure}
