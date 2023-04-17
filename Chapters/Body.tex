@@ -10,6 +10,12 @@ In this chapter, I will explain how each of my chosen algorithms work, and how I
     \item Voronoï Cells
 \end{enumerate}
 
+All of the above algorithms are ``ontogenetic." This contrasts with ``telelogical" procedural generation algorithms, and the difference between them is described in a 2008 article for video games magazine Gamastura by Mick West:
+
+`` Two competing methodologies in procedural content generation are teleological and ontogenetic. The teleological approach creates an accurate physical model of the environment and the process that creates the thing generated, and then simply runs the simulation, and the results should emerge as they do in nature.
+
+The ontogenetic approach observes the end results of this process and then attempts to directly reproduce those results by ad hoc algorithms. Ontogenetic approaches are more commonly used in real-time applications such as games. (See "Shattering Reality,"[sic] Game Developer, August 2006.)"\cite{teleonto}
+
 \section{Algorithms}
 
 In this section, I will explain how each of the algorithms I implemented work, then I will go into small detail as to how I implemented them. I go into further detail in the ``Implementation" section of this report.
@@ -167,13 +173,15 @@ Gradient noise, on the other hand, takes point lattices and instead calculates t
     \label{fig:valueperlincomparison}
 \end{figure}
 
-Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin Noise also takes a lattice of randomly assigned gradients, but the algorithm interpolates the dot products of those points instead of just their neighouring values.\cite{fastnoiselitedocs} Simplex noise, meanwhile, tries to reduce the grid artifacts caused by the original algorithm, and has the added benefit of scaling better to larger dimensions.\cite{pcgwikisimplex} Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{enwiki:1102898483} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
+Two particularly well-known Gradient noise algorithms that are commonly used for procedurally generating levels are the already mentioned Perlin Noise and Simplex Noise, both designed by American Computer Science professor Kenneth H. Perlin, with the former being an improvement on the former. Perlin Noise also takes a lattice of randomly assigned gradients, but the algorithm interpolates the dot products of those points instead of just their neighouring values.\cite{fastnoiselitedocs} Simplex noise, meanwhile, tries to reduce the grid artifacts caused by the original algorithm, and has the added benefit of scaling better to larger dimensions.\cite{pcgwikisimplex} Perlin filed a patent on his work in 2002 that was granted in 2005\cite{perlinpatent}, which prompted the creation of the OpenSimplex noise algorithm\cite{opensimplex}\cite{simplexarticle1}\cite{simplexarticle2} for free use; the patent has since expired in 2022, allowing free use to both Perlin and the original Simplex noise.\cite{perlinpatent}
 
-Godot 3 previously featured an OpenSimplexNoise class for generating noise textures, which used the OpenSimplex algorithm. This algorithm uses 
+Godot 3 previously featured an OpenSimplexNoise class\cite{opensimplexdocs} for generating noise textures, which used the OpenSimplex algorithm. In addition to using a ``simplectic honeycomb" for its lattices\cite{simplexarticle2}, this algorithm also  (to quote Michael Powell) ``expands the range of the gradients a bit, so they can extend a little bit into neighboring cells. This theoretically makes the noise a little bit smoother, but it also means that extra cells need to be checked."\cite{simplexarticle1} Godot 4, on the other hand, allows us to use the \textit{original} Simplex noise algorithm, as well as Perlin noise, 2 types of Value noise and a variation of Simplex noise that produces smoother, high quality noise images with an additional performance cost, and it allows us to control which algorithm we use for noise generation using the \verb|noise_type| property and \verb|NoiseType| enumeration in the \verb|FastNoiseLite| class that is now used for noise.\cite{fastnoiselitedocs} 
 
 \subsection{Poisson Disk Sampling}
 
 Poisson disk distributions are an easy way to randomly scatter objects across a field. It's commonly used for tree placement and placement of other random objects. Points are placed over a plane, with a single point placed randomly and subsequent points calculated such that a single point has no other point lying within a given radius of said point. Different implementations of Poisson disk distributions or samples can accommodate multiple radii for points in a plane, and some implementations produce \textit{maximal} samples- that is, a set of samples that fully cover the given plane, while still adhering to the principle that no single point has other points lying within its radius\cite{10.1145/1964921.1964944} (the implementation I made for this project does \textbf{not} guarantee maximality, however).
+
+An implementation of Poisson disk sampling was originally developed in 1991 by Don P. Mitchell\cite{10.1145/127719.122736} as a replacement for inefficient Monte Carlo ``dart-throwing" algorithms.\cite{pdshistory} Mitchell's algorithm ran in $\mathcal{O}(n^{2})$ time, whereas Robert Brinson's 2007 improved algorithm for Poisson disk sampling\cite{10.1145/1278780.1278807} ran in $\mathcal{O}(n)$. Subsequent quality and speed improvements to Brinson's algorithm were published in 2019\cite{pdsimprovementroberts}, 2021\cite{pdshistory} and 2022\cite{pdsimprovementrus}. The implementation made for this project, as well as the Unity project I based it on, were both based on Brinson's 2007 $\mathcal{O}(n)$ algorithm.\cite{seblaguetuteGH}\cite{seblaguetuteYT}
 
 The following are some examples of Poisson disk distribution in action:
 
@@ -193,7 +201,7 @@ The following are some examples of Poisson disk distribution in action:
 
 \subsection{Voronoï Cells}
 
-Named after the Ukranian mathematician Georgy Voronoy, Voronoï cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well). The final arrangement of cells represents a Voronoï Diagram or Voronoï Tesselation.
+Named after the Ukranian mathematician Georgy Voronoy, Voronoï cells work by taking a map of points, and randomly selecting a group of points. Within that selected group, cells are formed by calculating, in each point of the grid, the closest of the selected points to it. That is, each cell represents the group of points that are the closest to that random point (including that point in the group as well).\cite{pcgwikivoronoi} The final arrangement of cells represents a Voronoï Diagram or Voronoï Tesselation.
 
 Distances between points can be calculated with either the Euclidean distance:
 
@@ -283,3 +291,4 @@ Adapting Lague's implementation from C\# and Unity to GDScript and Godot involve
 
 \subsection{Voronoï Cells}
 
+As I got further and further with my implementation of Voronoï diagrams in Godot, I realised the way the algorithm inherently worked meant that the level layouts it designed would be wholly unique, espcially compared to the other three algorithms for which I made implementations of my scenario. For one thing, the algorithm ensured that 
