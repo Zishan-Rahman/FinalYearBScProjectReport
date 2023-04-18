@@ -43,6 +43,51 @@ The appendices contain information that is peripheral to the main body of the re
     \end{tabular}%
     }
     \end{center}
-    \caption{A table denoting some performance tests done with comparing the noise algorithms, the cellular distance functions and the combination pairs between them. This was done on my Noise implementation of the game; the ``tests" were simply checking how long it took to create levels on my machine. Be advised that this was done on my laptop, so on different computers, results can, and likely \textit{will}, vary.}
+    \caption{A table denoting some performance tests done with comparing the noise algorithms, the cellular distance functions and the combination pairs between them. This was done on my Noise implementation of the game; the ``tests" were simply checking how long it took to create levels on my computer, and all the other script variables were assigned to their default values as described in chapter \ref{Design}. Each noise type and cellular distance function pair was run 3 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that these tests were done on my computer, so on different computers, results can, and likely \textit{will}, vary.}
     \label{fig:table1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{center}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|ccccc|}
+    \hline
+     &
+      \multicolumn{5}{c|}{{\color[HTML]{FE0000} Noise type}} \\ \hline
+    {\color[HTML]{00009B} Fractal Type} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} Simplex Smooth}} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} Simplex}} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} Perlin}} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} Value}} &
+      {\color[HTML]{FE0000} Value Cubic} \\ \hline
+    {\color[HTML]{00009B} None} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}92ms\\ 86ms\\ 123ms\\ AVG: 100ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}89ms\\ 152ms\\ 99ms\\ AVG: 113ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}84ms\\ 98ms\\ 95ms\\ AVG: 92ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}101ms\\ 86ms\\ 97ms\\ AVG: 95ms\end{tabular}} &
+      \begin{tabular}[c]{@{}c@{}}77ms\\ 88ms\\ 86ms\\ AVG: 84ms\end{tabular} \\ \hline
+    {\color[HTML]{00009B} FBM (Fractional Brownian Motion)} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}77ms\\ 93ms\\ 87ms\\ AVG: 86ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}81ms\\ 87ms\\ 93ms\\ AVG: 87ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}73ms\\ 79ms\\ 73ms\\ AVG: 75ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}78ms\\ 137ms\\ 82ms\\ AVG: 99ms\end{tabular}} &
+      \begin{tabular}[c]{@{}c@{}}68ms\\ 64ms\\ 87ms\\ AVG: 73ms\end{tabular} \\ \hline
+    {\color[HTML]{00009B} Ridged} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}23ms\\ 25ms\\ 23ms\\ AVG: 24ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}74ms\\ 69ms\\ 70ms\\ AVG: 71ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}15ms\\ 16ms\\ 16ms\\ AVG: 16ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}27ms\\ 28ms\\ 26ms\\ AVG: 27ms\end{tabular}} &
+      \begin{tabular}[c]{@{}c@{}}14ms\\ 9ms\\ 11ms\\ AVG: 11ms\end{tabular} \\ \hline
+    {\color[HTML]{00009B} Ping Pong} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}59ms\\ 54ms\\ 58ms\\ AVG: 57ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}67ms\\ 77ms\\ 64ms\\ AVG: 69ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}108ms\\ 105ms\\ 111ms\\ AVG: 108ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}128ms\\ 71ms\\ 72ms\\ AVG: 90ms\end{tabular}} &
+      \begin{tabular}[c]{@{}c@{}}163ms\\ 172ms\\ 164ms\\ AVG: 166ms\end{tabular} \\ \hline
+    \end{tabular}%
+    }
+    \end{center}
+    \caption{A table denoting some performance tests done with comparing the noise algorithms, the fractal types and the combination pairs between them. This was done on my Noise implementation of the game; the ``tests" were simply checking how long it took to create levels on my computer, and all the other script variables were assigned to their default values as described in chapter \ref{Design}.. Each noise type and fractal type pair was run 3 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that these tests were done on my computer, so on different computers, results can, and likely \textit{will}, vary.}
+    \label{fig:table2}
 \end{figure}
