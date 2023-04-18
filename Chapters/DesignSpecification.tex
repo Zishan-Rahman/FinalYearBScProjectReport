@@ -32,7 +32,7 @@ While the noise implementations varied greatly depending on what settings were u
     \item Building Overtakes Tree (``building\_overtakes\_tree"): 0.12
 \end{itemize}
 
-The default noise frequency in ``FastNoiseLite" is 0.01, which results in smoother and less disparate noise. As seen in Figure \ref{fig:simplexsmooth0.01}, the smoother noise and lower frequency results in a distinct kind of level layout in which  
+The default noise frequency in ``FastNoiseLite" is 0.01, which results in smoother and less disparate noise. As seen in Figure \ref{fig:simplexsmooth0.01}, the smoother noise and lower frequency results in a distinct kind of level layout in which represents some of the noise values in the image very clearly, such that tiles (both buildings and trees) are bunched together in partially interconnected groups, forming long, large lines of painted tiles. To describe this as best as possible, it is easy to discern that the level layout was determined from a noise image. Using a higher noise frequency to produce rougher noise, and more disparate level layouts, yields results like in Figure \ldots{}, which makes it very similar to the layouts yielded in my Poisson Disk Sampling implementation and, to a lesser extent, my L-System implementation.
 
 \begin{figure}[H]
     \centering
