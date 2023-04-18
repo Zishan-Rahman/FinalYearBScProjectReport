@@ -7,194 +7,6 @@ All work on programs must stop once the code is submitted to KEATS. You are requ
 
 \textbf{You may find it easier to firstly generate a PDF of your source code using a text editor and then merge it to the end of your report. There are many free tools available that allow you to merge PDF files.}
 
-% \lstset{
-%   columns=flexible,
-%   basicstyle=\small\ttfamily,
-%   mathescape=true,
-%   escapeinside=||
-% }
-
-\section{LSystemGrammarDemo}
-
-\subsection{.gitattributes}
-
-\begin{lstlisting}
-# Normalize EOL for all files that Git considers text files.
-* text=auto eol=lf
-\end{lstlisting}
-
-\subsection{.gitignore}
-
-\begin{lstlisting}
-# Godot 4+ specific ignores
-.godot/
-\end{lstlisting}
-
-\subsection{project.godot}
-
-\begin{lstlisting}
-; Engine configuration file.
-; It's best edited using the editor UI and not directly,
-; since the parameters that go here are not all obvious.
-;
-; Format:
-;   [section] ; section goes between []
-;   param=value ; assign values to parameters
-
-config_version=5
-
-[application]
-
-config/name="LSystemGrammarDemo"
-run/main_scene="res://DemoNode.tscn"
-config/features=PackedStringArray("4.0")
-
-[display]
-
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
-
-[gui]
-
-common/drop_mouse_on_gui_input_disabled=true
-
-[physics]
-
-common/enable_pause_aware_picking=true
-\end{lstlisting}
-
-\subsection{DemoNode.tscn}
-
-\begin{lstlisting}
-[gd_scene load_steps=2 format=3 uid="uid://bu380we4od0ln"]
-
-[ext_resource type="Script" path="res://DemoNode.gd" id="1"]
-
-[node name="DemoNode" type="Node"]
-script = ExtResource("1")
-choices = "deterministic"
-
-[node name="Timer" type="Timer" parent="."]
-
-[node name="TextLabel" type="Label" parent="."]
-offset_right = 1152.0
-offset_bottom = 23.0
-autowrap_mode = 3
-
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-\end{lstlisting}
-
-\subsection{DemoNode.gd}
-
-\begin{lstlisting}
-extends Node
-
-# Basic: https://youtu.be/feNVBEPXAcE?t=77 (L = +)
-# Choices: http://paulbourke.net/fractals/lsys/
-# Deterministic: https://www1.biologie.uni-hamburg.de/b-online/e28_3/lsys.html#D0L-system
-
-@export_enum("basic", "choices", "deterministic") var choices: String = "choices"
-@export var axiom: String
-@onready var string: String
-@onready var timer = $Timer
-@onready var label = $TextLabel
-@onready var rules: Array[Dictionary]
-
-func set_values():
-	if choices == "basic":
-		rules = [
-			{
-				"from": "F",
-				"to": "F+F"
-			}
-		]
-		axiom = "F+"
-	elif choices == "choices":
-		rules = [
-			{
-				"from": "F",
-				"to": "F+F−F−FF+F+F−F"
-			}
-		]
-		axiom = "F+F+F+F"
-	elif choices == "deterministic":
-		rules = [
-			{
-				"from": "a",
-				"to": "ab"
-			},
-			{
-				"from": "b",
-				"to": "a"
-			}
-		]
-		axiom = "b"
-
-func _ready():
-	set_values()
-	string = axiom
-	label.size.x = get_viewport().size.x
-	label.text = string
-	print(len(string))
-	timer.start()
-
-func get_new_replacement(character: String) -> String:
-	for rule in rules:
-		if rule["from"] == character:
-			return rule["to"]
-	return ""
-
-func _on_Timer_timeout():
-	var new_string = ""
-	for character in string:
-		new_string += get_new_replacement(character)
-	string = new_string
-	label.text = string
-	print(len(string))
-\end{lstlisting}
-
-\subsection{icon.svg.import}
-
-\begin{lstlisting}
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://cwnnuqmejj04q"
-path="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://icon.svg"
-dest_files=["res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
-\end{lstlisting}
-
 \section{ProcGenRPG (L-System)}
 
 \subsection{.gitattributes}
@@ -4921,4 +4733,185 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+\end{lstlisting}
+
+\section{LSystemGrammarDemo}
+
+\subsection{.gitattributes}
+
+\begin{lstlisting}
+# Normalize EOL for all files that Git considers text files.
+* text=auto eol=lf
+\end{lstlisting}
+
+\subsection{.gitignore}
+
+\begin{lstlisting}
+# Godot 4+ specific ignores
+.godot/
+\end{lstlisting}
+
+\subsection{project.godot}
+
+\begin{lstlisting}
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="LSystemGrammarDemo"
+run/main_scene="res://DemoNode.tscn"
+config/features=PackedStringArray("4.0")
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+\end{lstlisting}
+
+\subsection{DemoNode.tscn}
+
+\begin{lstlisting}
+[gd_scene load_steps=2 format=3 uid="uid://bu380we4od0ln"]
+
+[ext_resource type="Script" path="res://DemoNode.gd" id="1"]
+
+[node name="DemoNode" type="Node"]
+script = ExtResource("1")
+choices = "deterministic"
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="TextLabel" type="Label" parent="."]
+offset_right = 1152.0
+offset_bottom = 23.0
+autowrap_mode = 3
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+\end{lstlisting}
+
+\subsection{DemoNode.gd}
+
+\begin{lstlisting}
+extends Node
+
+# Basic: https://youtu.be/feNVBEPXAcE?t=77 (L = +)
+# Choices: http://paulbourke.net/fractals/lsys/
+# Deterministic: https://www1.biologie.uni-hamburg.de/b-online/e28_3/lsys.html#D0L-system
+
+@export_enum("basic", "choices", "deterministic") var choices: String = "choices"
+@export var axiom: String
+@onready var string: String
+@onready var timer = $Timer
+@onready var label = $TextLabel
+@onready var rules: Array[Dictionary]
+
+func set_values():
+	if choices == "basic":
+		rules = [
+			{
+				"from": "F",
+				"to": "F+F"
+			}
+		]
+		axiom = "F+"
+	elif choices == "choices":
+		rules = [
+			{
+				"from": "F",
+				"to": "F+F−F−FF+F+F−F"
+			}
+		]
+		axiom = "F+F+F+F"
+	elif choices == "deterministic":
+		rules = [
+			{
+				"from": "a",
+				"to": "ab"
+			},
+			{
+				"from": "b",
+				"to": "a"
+			}
+		]
+		axiom = "b"
+
+func _ready():
+	set_values()
+	string = axiom
+	label.size.x = get_viewport().size.x
+	label.text = string
+	print(len(string))
+	timer.start()
+
+func get_new_replacement(character: String) -> String:
+	for rule in rules:
+		if rule["from"] == character:
+			return rule["to"]
+	return ""
+
+func _on_Timer_timeout():
+	var new_string = ""
+	for character in string:
+		new_string += get_new_replacement(character)
+	string = new_string
+	label.text = string
+	print(len(string))
+\end{lstlisting}
+
+\subsection{icon.svg.import}
+
+\begin{lstlisting}
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cwnnuqmejj04q"
+path="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://icon.svg"
+dest_files=["res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
 \end{lstlisting}
