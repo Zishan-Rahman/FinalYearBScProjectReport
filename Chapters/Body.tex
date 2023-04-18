@@ -177,13 +177,20 @@ or the Manhattan distance:
 
 $$ d_{M}(p, q) = |q_x - p_x| + |q_y - p_y| $$
 
-With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, with straighter diagonals and cells shaped like irregular polygons, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry"). A visual comparison of the kinds of cells generated with either distance calculation is shown in Figure \ref{fig:voronoicomparison}.
+With the Euclidean distance producing a more ``triangulated" tesselation than the Manhattan distance, with straighter diagonals and cells shaped like irregular polygons, the geometry of which is more "blocky" and resembles taxicabs (hence its alternate name "Taxicab Geometry"). Two visual comparisons of the kinds of Voronoï cells generated with either distance calculation are shown in Figures \ref{fig:voronoicomparison} and \ref{fig:secondvoronoicomparison}.
 
 \begin{figure}[H]
     \centering
     \includegraphics{Images/Voronoitessellations.jpg}
     \caption{A visual comparison of the kinds of Voronoï cells generated with the Euclidean and Manhattan distance.\cite{reffortesselations}}
     \label{fig:voronoicomparison}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/manhattan_example_02.jpg}
+    \caption{Another example of the differences between a Voronoï tesselation with distance between points calculated with either the Euclidean distance or the Manhattan distance.\cite{manvoronoi}}
+    \label{fig:secondvoronoicomparison}
 \end{figure}
 
 \section{Implementations}
