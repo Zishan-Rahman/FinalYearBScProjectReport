@@ -2,3 +2,49 @@
 \section{Tables, proofs, graphs, test cases, ...}
 The appendices contain information that is peripheral to the main body of the report. Information typically included in the Appendix are things like tables, proofs, graphs, test cases or any other material that would break up the theme of the text if it appeared in the body of the report. It is necessary to include your source code listings in an appendix that is separate from the body of your written report (see the information on Program Listings below).
 
+\begin{figure}[H]
+    \centering
+    % Please add the following required packages to your document preamble:
+    % \usepackage[table,xcdraw]{xcolor}
+    % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+    \begin{center}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lccccc}
+    \multicolumn{1}{c}{{\color[HTML]{FE0000} }} &
+      \multicolumn{5}{c}{{\color[HTML]{FE0000} Noise type}} \\
+    {\color[HTML]{00009B} Cellular Distance Function} &
+      \multicolumn{1}{l}{{\color[HTML]{FE0000} Simplex Smooth}} &
+      \multicolumn{1}{l}{{\color[HTML]{FE0000} Simplex}} &
+      \multicolumn{1}{l}{{\color[HTML]{FE0000} Perlin}} &
+      \multicolumn{1}{l}{{\color[HTML]{FE0000} Value}} &
+      \multicolumn{1}{l}{{\color[HTML]{FE0000} Value Cubic}} \\
+    {\color[HTML]{00009B} Euclidean} &
+      \begin{tabular}[c]{@{}c@{}}81ms\\ 84ms\\ 83ms\\ AVG: 83ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}83ms\\ 88ms\\ 83ms\\ AVG: 85ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}80ms\\ 74ms\\ 74ms\\ AVG: 76ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}82ms\\ 84ms\\ 83ms\\ AVG: 83ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}92ms\\ 105ms\\ 74ms\\ AVG: 90ms\end{tabular} \\
+    {\color[HTML]{00009B} Euclidean Squared} &
+      \begin{tabular}[c]{@{}c@{}}81ms\\ 77ms\\ 84ms\\ AVG: 81ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}74ms\\ 91ms\\ 79ms\\ AVG: 81ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}81ms\\ 73ms\\ 80ms\\ AVG: 78ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}90ms\\ 119ms\\ 93ms\\ AVG: 101ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}76ms\\ 109ms\\ 82ms\\ AVG: 89ms\end{tabular} \\
+    {\color[HTML]{00009B} Manhattan} &
+      \begin{tabular}[c]{@{}c@{}}83ms\\ 107ms\\ 82ms\\ AVG: 91ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}93ms\\ 101ms\\ 87ms\\ AVG: 94ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}82ms\\ 72ms\\ 80ms\\ AVG: 78ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}80ms\\ 81ms\\ 94ms\\ AVG: 85ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}81ms\\ 72ms\\ 101ms\\ AVG: 85ms\end{tabular} \\
+    {\color[HTML]{00009B} Hybrid (Euclidean \& Manhattan)} &
+      \begin{tabular}[c]{@{}c@{}}77ms\\ 96ms\\ 82ms\\ AVG: 85ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}87ms\\ 122ms\\ 87ms\\ AVG: 99ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}85ms\\ 74ms\\ 83ms\\ AVG: 81ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}85ms\\ 85ms\\ 87ms\\ AVG: 86ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}76ms\\ 77ms\\ 77ms\\ AVG: 77ms\end{tabular}
+    \end{tabular}%
+    }
+    \end{center}
+    \caption{A table denoting some performance tests done with comparing the noise algorithms, the cellular distance functions and the combination pairs between them. This was done on my Noise implementation of the game; the ``tests" were simply checking how long it took to create levels on my machine. Be advised that this was done on my laptop, so on different computers, results can, and likely \textit{will}, vary.}
+    \label{fig:table1}
+\end{figure}
