@@ -1,7 +1,7 @@
-\chapter{Report Body}
+\chapter{Report Body} \label{Body}
 %The central part of the report usually consists of three or four chapters detailing the technical work undertaken during the project. {\bf{\textcolor{red}{The structure of these chapters is highly project dependent}}}. They can reflect the chronological development of the project, e.g. design, implementation, experimentation, optimisation, evaluation, etc (although this is not always the best approach). However you choose to structure this part of the report, you should make it clear how you arrived at your chosen approach in preference to other alternatives. In terms of the software that you produce, you should describe and justify the design of your programs at some high level, e.g. using OMT, Z, VDL, etc., and you should document any interesting problems with, or features of, your implementation. Integration and testing are also important to discuss in some cases. You may include fragments of your source code in the main body of the report to illustrate points; the full source code is included in an appendix to your written report.
 
-In this chapter, I will explain how each of my chosen algorithms work, and how I went around implementing them as a surface-level explanation. I will then briefly compare what challenges I faced for each of my implementations, and how they compare, both performance-wise and with regards to the kinds of layouts they produce, again as surface-level explanations. I go into greater detail on my implementations in the Implementation section, how the level layouts generated in each algorithm compare with each other in the Design \& Specification section, and how each implementation compares overall (and also performance wise) in the Evaluation section. For this project, I chose to use the following 4 algorithms.
+In this chapter, I will explain how each of my chosen algorithms work, and how I went around implementing them as a surface-level explanation. I will then briefly compare what challenges I faced for each of my implementations, and how they compare, both performance-wise and with regards to the kinds of layouts they produce, again as surface-level explanations. I go into greater detail on my implementations in the Implementation section (chapter \ref{Implementation}), how the level layouts generated in each algorithm compare with each other in the Design \& Specification section (chapter \ref{Design}), and how each implementation compares overall (and also performance wise) in the Evaluation section (chapter \ref{Evaluation}). For this project, I chose to use the following 4 algorithms.
 
 \begin{enumerate}
     \item Lindenmayer Systems (or L-Systems)
@@ -22,9 +22,9 @@ In this section, I will explain how each of the algorithms I implemented work, t
 
 \subsection{Lindenmayer Systems}
 
-Hungarian academic Aristid Lindenmayer devised a mathematical model for the reproduction of fungi in 1967.\cite{LINDENMAYER1968300} His model involved a string of symbols, each unique symbol denoting a specific action and/or branch. Essentially, running that initial string, called the \emph{axiom}, through a set of rules (called a \emph{grammar}) gives us an ever-expanding string that is then taken as instructions to draw something from. Lindenmayer Systems, or L-Systems, have since been used in several scenarios beyond its initial purpose of modelling fungi, from trees to fractals. In video games, they are frequently used to aid in the creation of foliage in several environments, as well as buildings and, here, level layouts.
+Hungarian academic Aristid Lindenmayer devised a mathematical model for the reproduction of fungi in 1967.\cite{LINDENMAYER1968300} His model involved a string of symbols, each unique symbol denoting a specific action and/or branch. Essentially, running that initial string, called the \emph{axiom}, through a set of rules (called a \emph{grammar}) gives us an ever-expanding string that is then taken as instructions to draw something from. Lindenmayer Systems, or L-Systems, have since been used in several scenarios beyond its initial purpose of modelling fungi, from trees to fractals. In video games, they are frequently used to aid in the creation of foliage in several environments, as well as buildings and, here, level layouts. I go over how I got my implementation to work with complex multi-rule grammars in Chapters \ref{implsys1} and \ref{implsys2}.
 
-\subsubsection{A Basic 0L-System}
+\subsubsection{A Basic 0L-System} \label{lbasic}
 
 The most basic form of L-System is a \emph{0L}-System, 0 in this case referring to the fact that the grammar is \emph{context-free}.
 
@@ -34,7 +34,7 @@ For this example\cite{lsyspaulbourke}, consider an alphabet $V$, which consists 
 
 $$ \F, +, - $$
 
-where $\F$ means ``to go forward", and $+$ and $-$ denote turning right or left (respectively) a set number of degrees $\o$.
+where $\F$ means ``to go forward", and $+$ and $-$ denote turning right or left (respectively) a set number of degrees \o.
 
 Take an axiom $\omega$, for example:
 
@@ -48,18 +48,7 @@ We can represent this \emph{parametric} L-system in the following form:\cite{enw
 
 $$ G = (V, \omega, P) $$
 
-To implement $G$ in Godot, we can take each rule and replace each string in accordance to our one rule, using the replace method, like so:
-
-\begin{figure}[H]
-    \centering
-    \begin{lstlisting}
-string = string.replace(rule["from"], rule["to"]) #Here the rules were stored in dictionaries.
-    \end{lstlisting}
-    \caption{A line of code that demonstrates directly replacing characters in a string according to our L-System grammar's rules.}
-    \label{fig:lsys-snippet-1}
-\end{figure}
-
-The first 3 iterations of this operation are shown here:
+The first 3 iterations of string replacement with this one-rule grammar $G$ are shown here:
 
 \begin{figure}[H]
 	\centering
@@ -105,30 +94,7 @@ The resulting string can be used to draw a lattice.\cite{lsyspaulbourke} Example
     \label{fig:lattice2}
 \end{figure}
 
-\subsubsection{A More Complex D0L-System With More Than One Rule}
-
-For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted. This can be represented in Godot as demonstrated in Figure \ref{fig:lsys-snippet-2}, which uses two functions to perform string replacement. The first function \verb|get_new_replacement| performs the character replacement according to the L-System's grammar rules, while the second function \verb|replace_string| uses a string builder variable to allow for replacement of characters without directly affecting the original string and causing unwanted side effects.
-
-\begin{figure}[H]
-    \centering
-    \begin{lstlisting}
-func get_new_replacement(character: String) -> String:
-	for rule in rules:
-		if rule["from"] == character:
-			return rule["to"]
-	return character
-
-func replace_string(string: String) -> String:
-	var new_string = ""
-	for character in string:
-		new_string += get_new_replacement(character)
-	return new_string
-    \end{lstlisting}
-    \caption{Two GDScript functions for replacing characters in an L-System grammar with more than one rule.}
-    \label{fig:lsys-snippet-2}
-\end{figure}
-
-This can \textit{then} be used to handle more complex grammars that can handle more than one rule in which characters in strings are replaced by other strings of variable length, as before.
+\subsubsection{A More Complex D0L-System With More Than One Rule} \label{lcomplex}
 
 The grammar in the following example represents a D0L-System\cite{lsystemintro}, a \textbf{deterministic} L-System using a context-free grammar; the grammar in the first example was \textit{also} deterministic.
 
@@ -245,7 +211,7 @@ Across all implementations, there are two local variables, \verb|x_tile_range| a
 
 Finally, there are two dialog popups added to each scene tree, one for describing the game's story (\verb|AcceptDialog|, of type \verb|AcceptDialog|) and another for when the game ends after the player has collected the ring (\verb|WinDialog|, of type \verb|ConfirmationDialog|). For \verb|AcceptDialog| the \verb|confirmed| and \verb|canceled| signals are both connected to the function \verb|_on_AcceptDialog_closed|, which hides the popup and unpauses the game. For \verb|WinDialog|, on the other hand, \verb|confirmed| is connected to \verb|_on_WinDialog_confirmed| and \verb|canceled| is connected to \verb|_on_WinDialog_canceled|. \verb|_on_WinDialog_confirmed| is meant to generate a new level layout, while \verb|_on_WinDialog_canceled| is meant to close the game, both when the cancel button (labelled "Get Me Out of Here") is clicked and when the cross on the top-right corner of the popup is clicked. However, as of now, only the top-right corner of both popups does what it is supposed to; clicking any of the other buttons from both popups, for some reason, does nothing at the moment, and I \textit{did} make sure, in my code, that the signals were properly connected. However, the games themselves still run as they are supposed to, and the integration of the algorithms into the levels in the games are more important here, so since \textit{they} still work, I decided to leave the popups, their behaviour and their code as they were. \textit{If} they are engine issues, regarding the buttons, they may hopefully get fixed in future versions of Godot.
 
-\subsection{Lindenmayer System}
+\subsection{Lindenmayer System} \label{implsys1}
 
 The implementation of an L-System was very simple. I took inspiration from a YouTube video on implementing an L-System for drawing line graphics in Godot by Codat.\cite{codatGD3LSystemYT} In the code from the Godot 3 project he made in that video\cite{codatGD3LSystemGH}\cite{codatGD3LSystemYT}, he created a custom ``Rule" class in GDScript, with which he defined new rules. I forked his project, converted it to Godot 4 and used it to create the lattice graphics in Figure \ref{fig:lattice2}.\cite{codatGD4LSystemGH} I did this mainly as a reference for my implementation of L-Systems in the game itself.
 
@@ -267,7 +233,7 @@ $$ \mbox{B} \rightarrow \mbox{B}\mbox{W}\mbox{O} $$
 
 can parse the axiom OWB, paint tile map tiles with the resulting string \textbf{and} place the player and ring in just 19 milliseconds on average. This was the default grammar used by the L-System in the game. I also included 3 more grammars, one that generated more buildings (and impossible level layouts), another that generated more trees and another that generated more empty space. These can be easily selected with the \verb|ruleset| export variable in the Godot editor. Further variance can be added with the addition of a randomly generated axiom, capped at a maximum height or smaller (minimum 1). If said option is enabled in the Godot editor, the default value in the export variable for setting this cap is 10, and since it is an export variable, it too can be adjusted in the editor as the developer sees fit.
 
-\subsection{Perlin/Simplex Noise}
+\subsection{Perlin/Simplex Noise} \label{impperlin1}
 
 The Simplex Noise implementation works with Godot's built-in Noise library. Within a Sprite2D node's Texture attribute, I set a new ``NoiseTexture2D" field inside of it. In its ``Noise" attribute I created a new ``FastNoiseLite" scene, which generates a noise texture for us to use. The seed can be set in the sprite's script file.
 
@@ -287,7 +253,7 @@ The Poisson Disk Sampling implementation was based on a Unity tutorial by Sebast
 
 My implementation of the Poisson Disk Sampling algorithm mostly took from him, with some changes. Lague did his implementation in the C\# language and, while Godot 4 \textit{does} have a separate version with C\# and .NET support, I opted to use the standard GDScript distribution of Godot 4 with all of my implementations. This meant that I had to adapt the code to work with not just the tile map but also the way GDScript worked. For one thing, the \verb|grid| array in the \verb|generate_points| had to be manually initialised by inserting arrays into an empty array, the quantity determined by what would have been the outer length of the 2D array (and what basically \textit{was} this in Lague's implementation), that being the ceiling function of the x-dimension of the sample region size divided by the cell size. From there, in each of the nested arrays, the value 0 had to be programatically inserted to all of them, the quantity of the \textit{zeroes} also being determined by what would have been the \textit{inner} length of the 2D array (and what basically \textit{was} this in Lague's implementation), that being the ceiling function of the y-dimension of the sample region size divided by the cell size.
 
-Adapting Lague's implementation from C\# and Unity to GDScript and Godot involved some extensive research into Unity's API. When calculating the angle in \verb|GeneratePoints|/\verb|generate_points|, for example, the equivalent of Unity's \verb|Random.value| in Godot is \verb|randf| (which \textit{has} no static class to be called from). Furthermore, GDScript has a \verb|TAU| constant that does the \verb|Mathf.PI * 2| calculation done in Lague's Unity implementation. The \verb|sqrMagnitude| method used in Lague's \verb|isValid| function becomes \verb|length_squared| in my \verb|is_valid| method. When implementing \verb|isValid| in GDScript I also had to make sure the inner and outer dimensions of the grid could be adequately accessed. I go over how I did that in the ``Implementation" section of this report.
+Adapting Lague's implementation from C\# and Unity to GDScript and Godot involved some extensive research into Unity's API. When calculating the angle in \verb|GeneratePoints|/\verb|generate_points|, for example, the equivalent of Unity's \verb|Random.value| in Godot is \verb|randf| (which \textit{has} no static class to be called from). Furthermore, GDScript has a \verb|TAU| constant that does the \verb|Mathf.PI * 2| calculation done in Lague's Unity implementation. The \verb|sqrMagnitude| method used in Lague's \verb|isValid| function becomes \verb|length_squared| in my \verb|is_valid| method. When implementing \verb|isValid| in GDScript I also had to make sure the inner and outer dimensions of the grid could be adequately accessed. I go over how I did that in the ``Implementation" section of this report (see chapter \ref{Evaluation}).
 
 \subsection{Voronoï Cells}
 
@@ -298,3 +264,10 @@ For example, unlike the other implementations, the algorithm ensure that all cel
 Even \textit{with} that, there would be no guarantee that a player would be able to complete a level successfully. For example, if a player and ring were spawned in different Voronoï cells of trees, and both of those cells were separated by cells of buildings such that they could not ever be feasibly reached, the game would be impossible to finish. Therefore, a new input event was created, \verb|reset_position|, which can be triggered by pressing \textit{either} the G key on a standard computer keyboard \textit{or} the right-click mouse button. Triggering the event respawns the player character in a different position, which could be occupied by either a tree or the ring, ensuring that the ring can still be collected and, therefore, game can still be won. The code for when this event is triggered is essentially a rehash of the code for \verb|place_player|, except that the new cell \textbf{can} be the cell occupying the ring, and also the previous cell's contents will be deleted (as the player is no longer at that position).
 
 While the differences are drastic and very noticeable, I nonetheless kept working on this implementation and included it in my project. I believe that the fact that I was able to work through it and implement a working version of my scenario with it (albeit with some changes) adds further strength to my claims that Godot can work well with procedural generation algorithms, even ones where use in the context of a tile map RPG would be rarer, as well as proving my strengths as a games programmer in making tile maps work with PCG algorithms.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/voronoi-example.png}
+    \caption{An example of the Voronoï cells implementation of the scenario in action.}
+    \label{fig:voronoi-example}
+\end{figure}

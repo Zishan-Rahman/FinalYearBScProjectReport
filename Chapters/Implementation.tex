@@ -1,9 +1,187 @@
-\chapter{Implementation}
+\chapter{Implementation} \label{Implementation}
 
 % Go deeper into how I got each algorithm to work
 % How I decide
 
-Here I will go a bit deeper as to how I made each algorithm work. Where possible, I plan to use code snippets from the work I have done to justify how and why things were implemented the way they were.
+Here I will go a degree deeper as to how I made each algorithm work. Where possible, I plan to use code snippets from the work I have done to justify how and why things were implemented the way they were.
+
+\section{Lindenmayer System} \label{implsys2}
+
+To implement our basic grammar in Godot (see chapter \ref{lbasic}), we can take each rule and replace each string in accordance to our one rule, using the replace method, as demonstrated in Figure \ref{fig:lsystem1}.
+
+For handling more than one rule, we can instead use a new string buffer variable where, for each character in our string, we can attain a new string and append it to our string buffer. The resulting string is then returned and interpreted. This can be represented in Godot as demonstrated in Figure \ref{fig:lsystem2}, which uses two functions to perform string replacement. The first function \verb|get_new_replacement| performs the character replacement according to the L-System's grammar rules, while the second function \verb|replace_string| uses a string builder variable to allow for replacement of characters without directly affecting the original string and causing unwanted side effects (see chapter \ref{implsys1} and also the tutorial in the following citations\cite{codatGD3LSystemYT}\cite{codatGD3LSystemGH}\cite{codatGD4LSystemGH}, from which I took major inspiration for my L-System implementation). The \verb|get_new_replacement| function was eventually used in my final implementation, whereas the code in the \verb|replace_string| function was adapated into my implementation's \verb|parse| function, shown in Figure \ref{fig:lsystem5}, in which some export variables were accounted for and the number of iterations was controlled through a while loop rather than a for loop, the while condition being that the string size was smaller than the total number of cells. The string that \verb|parse| returns chops off any excess characters.
+
+This can \textit{then} be used to handle more complex grammars that can handle more than one rule in which characters in strings are replaced by other strings of variable length, as seen in the example in Chapter \ref{lcomplex}.
+
+With a constant use of the same grammar rules and axiom, one issue that arose in the development of levels in our scenario, with L-Systems, is the lack of variance in the kinds of tiles placed, and it was hard to figure out how to deviate even slightly from the eventually recognisable patterns the algorithm and default grammar (see chapter \ref{implsys1}) would create. I thus developed a mitigation for this by allowing a choice between the provided axiom or a random one (the user/developer can also change the axiom in Godot's editor). This is down to the exported variables in the L-System node's script that I implemented (the L-System node's parent is the \verb|TileMap| root node). The relevant ones from the \verb|l_system.gd| script file are shown in Figure \ref{fig:lsystem3}. If \verb|use_random_axiom| is set to true (and it is by default), then it takes a maximum character limit \verb|upper_limit| (again an export variable configurable in the Godot editor itself) and then it generates a string of a length \textbf{up to} that limit- that is, the length of the returned string between 1 and the limit, both inclusive- using the alphabet that all of the provided grammars adhere to (``O" for blank space, ``W" for trees and ``B" for buildings). The axiom is then assigned to the \verb|string| script variable in the \verb|paint| method by calling the \verb|paint| method and assigning the return type to it.
+
+For the sake of creativity and additional experimentation, I created additional grammars that can be configured with the \verb|ruleset| variable. The ``Default" grammar is as described in \ref{implsys1}, and the additional grammars generate higher proportions of either buildings, trees or empty space depending on which one is chosen (with the ``more buildings" grammar producing levels that are impossible to finish in our scenario). The grammars themselves are detailed in Figure \ref{fig:lsystem4}, and the method used to return the specifically set grammar in \verb|parse| is shown in Figure \ref{fig:lsystem6}.
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+string = string.replace(rule["from"], rule["to"]) #Here the rules were stored in dictionaries.
+    \end{lstlisting}
+    \caption{A line of code that demonstrates directly replacing characters in a string according to our L-System grammar's rules.}
+    \label{fig:lsystem1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func get_new_replacement(character: String) -> String:
+	for rule in rules:
+		if rule["from"] == character:
+			return rule["to"]
+	return character
+
+func replace_string(string: String) -> String:
+	var new_string = ""
+	for character in string:
+		new_string += get_new_replacement(character)
+	return new_string
+    \end{lstlisting}
+    \caption{Two GDScript functions for replacing characters in an L-System grammar with more than one rule. The first function was used in the final L-System implementation of the scenario. The second function was adapted into the ``parse" function of my implementation. Both functions are in the l\_system.gd script file.}
+    \label{fig:lsystem2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+@export var use_random_axiom: bool = true
+## Defines how many characters a random axiom can have MAXIMUM. Only used when use_random_axiom is true.
+@export var upper_limit: int = 10
+    \end{lstlisting}
+    \caption{The use\_random\_axiom and upper\_limit variables used when allowing a random axiom for an L-System grammar and then setting a maximum character limit for it.}
+    \label{fig:lsystem3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    $$ \mbox{O} \rightarrow \mbox{B}\mbox{W}\mbox{O}\mbox{B} $$
+    $$ \mbox{W} \rightarrow \mbox{W}\mbox{B}\mbox{O}\mbox{B}\mbox{O} $$
+    $$ \mbox{B} \rightarrow \mbox{B}\mbox{B} $$
+    
+    $$ \mbox{O} \rightarrow \mbox{W}\mbox{W}\mbox{O} $$ 
+    $$ \mbox{W} \rightarrow \mbox{W}\mbox{B}\mbox{W}\mbox{O} $$
+    $$ \mbox{B} \rightarrow \mbox{B}\mbox{W}\mbox{W}\mbox{O} $$
+    
+    $$ \mbox{O} \rightarrow \mbox{O}\mbox{O}\mbox{B}\mbox{W}\mbox{O} $$ 
+    $$ \mbox{W} \rightarrow \mbox{O}\mbox{B} $$
+    $$ \mbox{B} \rightarrow \mbox{O}\mbox{W} $$
+    \caption{The other 3 grammars I created for my L-System implementation, aside from the default one covered in chapter \ref{implsys1}. More buildings, more trees and more space respectively.}
+    \label{fig:lsystem4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func _size() -> int:
+	return tile_map.x_tile_range * tile_map.y_tile_range
+
+func rand_axiom() -> String:
+	var string_buffer: String = ""
+	var limit: int = randi_range(1, upper_limit)
+	for i in range(limit):
+		string_buffer += ["O", "W", "B"].pick_random()
+	return string_buffer
+ 
+func parse() -> String:
+	if use_random_axiom:
+		axiom = rand_axiom()
+		string = axiom
+	if not use_custom_ruleset or ruleset != "Default":
+		rules = _get_ruleset()
+	var size: int = _size()
+	while len(string) <= size:
+		var new_string = ""
+		for character in string:
+			new_string += get_new_replacement(character)
+		string = new_string
+	string = string.substr(0, size)
+	return string
+    \end{lstlisting}
+    \caption{The parse function in l\_system.gd, which takes the rand\_axiom and \_get\_ruleset functions (if needed; the latter is shown in Figure \ref{fig:lsystem6}), then gets the string size through \_size. Then, the string replacements described in \ref{fig:lsystem2} are carried out in the while loop, before the string is then returned (albeit without any excess characters that will not be used in the paint method to paint the cells in the tile map).}
+    \label{fig:lsystem5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func _get_ruleset() -> Array[Dictionary]:
+	match ruleset:
+		"More Buildings (IMPOSSIBLE)": return MORE_BUILDINGS
+		"More Trees": return MORE_TREES
+		"More Space": return MORE_SPACE
+		_: return DEFAULT
+    \end{lstlisting}
+    \caption{The \_get\_ruleset function used in the parse method in figure \ref{fig:lsystem5}.}
+    \label{fig:lsystem6}
+\end{figure}
+
+\section{Perlin/Simplex Noise} \label{impperlin2}
+
+While the \verb|noise_type| export variable is a selection of strings that are eventually taken from to return an enumeration for \verb|NoiseType|, a member of the \verb|FastNoiseLite| class\cite{fastnoiselitedocs}, the \verb|fractal_type| and \verb|cellular_distance_type| export variables more directly correspond to the relevant enumerations from \verb|FastNoiseLite|, as described earlier in chapter \ref{impperlin1} and shown in Figure \ref{fig:simplex1}. The \textit{other} export variable is \verb|noise_frequency|, which corresponds to the \verb|frequency| property in \verb|FastNoiseLite|. This is again shown in Figure \ref{fig:simplex1}.
+
+Initiating the noise variable is done in the \verb|set_noise| function, in which, after instantiating the \verb|FastNoiseLite| class, the relevant export variables are then taken in and assigned their values accordingly, with the noise type handled through the \verb|_get_noise_type| function, which returns an integer that is then cast to the \verb|NoiseType| enumeration. By contrast, all the other attribute assignments- \verb|frequency|, \verb|fractal_type| and \verb|cellular_distance_function|- were far more simple, since I could just use the values of \verb|noise_frequency|, \verb|fractal_type| (\textit{in the script's export variable, \textbf{not} the noise instance}) and \verb|cellular_distance_type|, and assign them accordingly. Both functions are shown in Figure \ref{fig:simplex2}.
+
+In both Figures \ref{fig:simplex1} and \ref{fig:simplex2}, I had a commented out export variable, \verb|octaves|. I wanted to see if changing the number of octaves in our noise image (or, rather, ``layers") would have an effect on the level layouts designed (the default is 5\cite{fastnoiselitedocs}). Unfortunately, in my experiments, I found that it did not have any noticeable effect, so I decided to leave the default number of octaves as is. 
+
+Painting the tiles in our tile map involves a \verb|paint_points| method in which we iterate through every single cell of our tile map. For each cell in that map, we then check first if it can paint a tree. If the noise value retrieved at the given pixel from the noise image is smaller than the maximum limit we set for trees, \verb|tree_cap|, then we paint a tree tile at that cell. Then, we check for buildings. As I described in chapter \ref{impperlin1}, I had to implement additional Boolean checks for when \verb|tree_cap| was smaller than \verb|building_cap|, so that buildings could still get placed. First, we check that \verb|building_cap| is smaller than \textit{or equal to} \verb|tree cap| \textbf{and}, if so, whether or not we overwrite the tree tile with a building tile in the same place, subject to a random float between 0 and 1 falling below the probability value set in \verb|building_overtakes_tree|. The \textit{alternative}, for when \verb|building_cap| is smaller than \verb|tree_cap|, is to check whether the current \verb|noise_point| is smaller than the \verb|building_cap| we set. In both cases, of course, that cell cannot already be occupied by something else. If those conditions are true, we can then paint a building tile. The code behind this part of the algorithm is shown in Figure \ref{fig:simplex3}.
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+var noise: FastNoiseLite
+@export_enum("Perlin", "Simplex", "Simplex Smooth", "Value", "Value Cubic") var noise_type: String = "Simplex Smooth"
+@export var fractal_type: FastNoiseLite.FractalType
+@export var cellular_distance_type: FastNoiseLite.CellularDistanceFunction
+#@export_range(1, 10, 1) var octaves: int = 5 
+@export_range(0.0, 1.0) var noise_frequency: float = 0.894
+    \end{lstlisting}
+    \caption{The noise, noise\_type, fractal\_type, cellular\_distance\_type and noise\_frequency script variables in tile\_map.gd. The latter three are export variables, and the latter two of \textit{those} are assigned to the enumerations FractalType and CellularDistanceFunction repsectively (both are members of the FastNoiseLite class).\cite{fastnoiselitedocs} noise\_type, meanwhile, uses an external function called to assign properties to a newly created FastNoiseLite instance which is assigned to the noise script variable. noise\_frequency here corresponds to the frequency attribute in FastNoiseLite.\\Notice the commented out octaves variable. Changing the number of octaves used had no effect on the level layouts produced, so I left the default number of octaves (5) as is.}
+    \label{fig:simplex1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func _get_noise_type() -> int:
+	match noise_type:
+		"Perlin": return 3
+		"Simplex": return 0
+		"Value": return 5
+		"Value Cubic": return 4
+		_: return 1 # Return Simplex Smooth by default
+
+func set_noise() -> void:
+	noise = FastNoiseLite.new()
+	noise.frequency = noise_frequency
+	noise.noise_type = _get_noise_type() as FastNoiseLite.NoiseType
+	noise.fractal_type = fractal_type
+	noise.cellular_distance_function = cellular_distance_type
+#	noise.fractal_octaves = octaves
+	noise.seed = randi()
+    \end{lstlisting}
+    \caption{The set\_noise method in the tile\_map.gd script, which uses the earlier defined \_get\_noise\_type method to assign the noise type. The noise type returned is then cast from an integer to an enumeration of type NoiseType (from FastNoiseLite). The fractal\_octaves line is commented out because, when experimenting with octaves, I found no real effects they could have on the level layouts generated, so I left the default number of octaves (5) as is.}
+    \label{fig:simplex2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func paint_tiles() -> void:
+	for x in range(x_tile_range):
+		for y in range(y_tile_range):
+			var noise_point: float = noise.get_noise_2d(x * tile_set.tile_size.x, y * tile_set.tile_size.y)
+			if noise_point < tree_cap and not get_used_cells(0).has(Vector2i(x, y)):
+				set_cell(0, Vector2i(x, y), 0, trees.pick_random())
+			if ((building_cap <= tree_cap and randf() < building_overtakes_tree) or (building_cap > tree_cap and noise_point < building_cap)) and not get_used_cells(0).has(Vector2i(x, y)):
+				set_cell(0, Vector2i(x, y), 0, buildings.pick_random())
+    \end{lstlisting}
+    \caption{The paint\_tiles method in the tile\_map.gd script iterates through the tile map and gets each noise pixel from the relevant part of the noise image. It first tries to paint a tree tile there, subject to the noise\_point value being below the limit set for trees. Then, it decides whether or not to paint a building there. The conditions for painting building tiles are as described in chapter \ref{impperlin1} and further elaborated on earlier in \textit{this} chapter, \ref{impperlin2}.}
+    \label{fig:simplex3}
+\end{figure}
 
 \section{Poisson Disk Sampling}
 
@@ -65,6 +243,10 @@ The original JavaScript implementation, as mentioned before, had a \verb|randRan
 
 The type of each Voronoï cell was determined by taking, and then deleting, a value from the \verb|types| array. Said array is local to that function, and it is initialised by duplicating the \verb|trees| array, then appending it with the \verb|buildings| array, making sure the same type cannot be used for a Voronoï cell twice. Duplicating the array before merging it essentially makes sure that the \textit{original} \verb|trees| array is not affected by deletions performed on the \verb|types| array. This computation is shown in Figure \ref{fig:voronoi2}, and the deletion operation is shown in Figure \ref{fig:voronoi4}.
 
+Another addition to my implementation of the algorithm was the choice of using either the Euclidean distance or Manhattan distance for calculating the distance between points that would form cells. This was done with a function \verb|calculate_points_delta|, as shown in Figure \ref{fig:voronoi9} and used in Figure \ref{fig:voronoi8}, which is called on the calculation of \verb|delta| in \verb|define_points|. The function takes the contents of the exported variable \verb|distance|, as well as the current \verb|x| and \verb|y| coordinates and point ID \verb|p| during the current points delta calculation. It then checks if the String value in \verb|distance| denotes either the Euclidean distance or the Manhattan distance, then it finally returns the appropriate calculation. Using the Manhattan distance instead of the Euclidean distance does indeed yield a considerable performance increase (as well as creating fewer Voronoï cells by using a smaller \verb|random_starting_points| value), which I touch on in the Evaluation chapter.
+
+Furthermore, my implementation would often paint cells in the tile map that were out of bounds, so to mitigate this when painting them, I created an additional function \verb|_is_in_bounds|, as shown in Figure \ref{fig:voronoi7} and used in Figure \ref{fig:voronoi6}, for checking whether a painted cell (that is, the coordinates of the current point \textbf{plus} the delta/difference between it and the closest of the randomly selected starting points to it) is within the boundaries of the tile map. If it is not, then it does not get painted, though it is not deleted from the point's citizens array either.
+
 \begin{figure}[H]
     \centering
     \begin{lstlisting}
@@ -102,4 +284,59 @@ types.erase(type)
     \end{lstlisting}
     \caption{The types of each Voronoï cell being picked and the erased in define\_points.}
     \label{fig:voronoi4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+const EUCLIDEAN: String = "Euclidean distance"
+const MANHATTAN: String = "Manhattan distance"
+@export_enum(EUCLIDEAN, MANHATTAN) var distance: String = MANHATTAN
+    \end{lstlisting}
+    \caption{The applicable values of the exported variable distance.}
+    \label{fig:voronoi5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+if _is_in_bounds(point["x"], citizen["dx"], point["y"], citizen["dy"]):
+    set_cell(0, Vector2(point["x"] + citizen["dx"], point["y"] + citizen["dy"]), 0, point["type"])
+    \end{lstlisting}
+    \caption{The appropriate block of code in the paint\_points function that checks to see if a point would be in bounds or out of bounds before painting it in its relevant tile map cell. It does \textbf{not} delete the point if it lies out of bounds.}
+    \label{fig:voronoi6}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func _is_in_bounds(x: int, dx: int, y: int, dy: int) -> bool:
+	return x + dx >= 0 and x + dx < x_tile_range and y + dy >= 0 and  y + dy < y_tile_range
+    \end{lstlisting}
+    \caption{The \_is\_in\_bounds function called in the code snippet in Figure \ref{fig:voronoi6}.}
+    \label{fig:voronoi7}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{lstlisting}
+func _squared(x: int) -> int:
+	return x ** 2
+
+func calculate_points_delta(x: int, y: int, p: int) -> float:
+	if distance == EUCLIDEAN:
+		return sqrt(_squared(points[p]["x"] - x) + _squared(points[p]["y"] - y))
+	return abs(points[p]["x"] - x) + abs(points[p]["y"] - y)
+    \end{lstlisting}
+    \caption{The calculate\_points\_delta function being called in Figure \ref{fig:voronoi9}. \_squared is a self-defined helper function that is only used for the Euclidean distance calculation; it does as it says (it squares the number taken into it and returns the result).}
+    \label{fig:voronoi8}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{lstlisting}
+var delta: float = calculate_points_delta(x, y, p)
+    \end{lstlisting}
+    \caption{The calling of calculate\_points\_delta from Figure \ref{fig:voronoi8} in define\_points, using the current x and y coordinates and point ID p in the iteration when grouping tile map cells together to form Voronoï cells from the randomly selected starting points.}
+    \label{fig:voronoi9}
 \end{figure}

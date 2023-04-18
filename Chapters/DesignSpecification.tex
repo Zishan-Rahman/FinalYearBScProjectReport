@@ -1,14 +1,16 @@
-\chapter{Design \& Specification}
+\chapter{Design \& Specification} \label{Design}
   
 % Provide abstract level of how I intend to compare them
 % How do I make sure the implementation is like for like
 % 
 
-Here, I will provide an abstract level of how I compared the performance of each content generation algorithm and how I made sure each implementation could produce as similar/like-for-like results as possible (and where they \textit{couldn't} do so).
+Here, I will provide an abstract level of how I compared the performance of each content generation algorithm and how I made sure each implementation could produce as similar/like-for-like results as possible (and where they \textit{couldn't} do so). I delve into more specifics and quantified data in Chapter \ref{Evaluation}.
 
 \section{Performance}
 
 With the L-System implementation, I had no problems running the game very quickly on my machine, and quickly got satisfactory results results.
+
+While my Noise implementation was slower than my L-System implementation by a magnitude, 
 
 With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout.
 
