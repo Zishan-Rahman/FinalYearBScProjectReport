@@ -16,7 +16,7 @@
 \renewcommand{\familydefault}{\rmdefault}
 
 \setcounter{secnumdepth}{2} %Section numbering depth
-\setcounter{tocdepth}{1} %Table of Contents depth, section only
+\setcounter{tocdepth}{2} %Table of Contents depth, section only
 
 %Text
 \usepackage{setspace}
