@@ -20,7 +20,7 @@ The ontogenetic approach observes the end results of this process and then attem
 
 In this section, I will explain how each of the algorithms I implemented work, then I will go into small detail as to how I implemented them. I go into further detail in the ``Implementation" section of this report.
 
-\subsection{Lindenmayer Systems}
+\subsection{Lindenmayer Systems} \label{alglsys}
 
 Hungarian academic Aristid Lindenmayer devised a mathematical model for the reproduction of fungi in 1967.\cite{LINDENMAYER1968300} His model involved a string of symbols, each unique symbol denoting a specific action and/or branch. Essentially, running that initial string, called the \emph{axiom}, through a set of rules (called a \emph{grammar}) gives us an ever-expanding string that is then taken as instructions to draw something from. Lindenmayer Systems, or L-Systems, have since been used in several scenarios beyond its initial purpose of modelling fungi, from trees to fractals. In video games, they are frequently used to aid in the creation of foliage in several environments, as well as buildings and, here, level layouts. I go over how I got my implementation to work with complex multi-rule grammars in Chapters \ref{implsys1} and \ref{implsys2}.
 
