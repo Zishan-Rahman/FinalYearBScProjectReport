@@ -52,25 +52,34 @@ The default noise frequency in ``FastNoiseLite" is 0.01, which results in smooth
     \label{fig:simplexsmooth0.01}
 \end{figure}
 
-The Poisson Disk Sampling implementation also produced similar levels, with the main difference higher level processing times, as shown in section \ref{performance}. The lower the number of rejection samples, the quicker the processing times, but the lower the number of tiles painted in the tile map. 
+The Poisson Disk Sampling implementation also produced similar levels, with the main difference higher level processing times, as shown in section \ref{performance}. The lower the number of rejection samples, the quicker the processing times, but the lower the number of tiles painted in the tile map. This is shown in Figures \ref{fig:poisson2} and \ref{fig:poisson3}, with the latter being a particularly egregious example. Figure \ref{fig:poisson1}, on the other hand, shows a level created with the default number of rejection samples (8), and is similar to the level generated with Simplex noise in Figure \ref{fig:simplexsmoothdefault1}.
+
+\newpage
+
+I also have 3 other export variables:
+
+\begin{itemize}
+    \item ``point\_radius", which sets the distance between points during calculation, in that no point can be within a radius distance of other points. By default it is set to 1.0.
+    \item ``"
+\end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics{Images/default-poisson-result.png}
+    \includegraphics[width=0.8\textwidth]{Images/default-poisson-result.png}
     \caption{A level layout set with the default number of rejection samples (8). This level took 222ms to create.}
     \label{fig:poisson1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics{Images/poisson-3-samples.png}
-    \caption{A level layout set with the number of rejection samples set to 3 instead of 8. This level took 87ms to create.}
+    \includegraphics[width=0.8\textwidth]{Images/poisson-3-samples.png}
+    \caption{A level layout set with the number of rejection samples set to 3 instead of 8. There are a somewhat smaller number of painted tiles in this level than the level in Figure \ref{fig:poisson1}. This level took 87ms to create.}
     \label{fig:poisson2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics{Images/poisson-3-samples.png}
-    \caption{A level layout set with the number of rejection samples set to 3 instead of 8. This level took 87ms to create.}
+    \includegraphics[width=0.8\textwidth]{Images/poisson-1-sample.png}
+    \caption{A level layout set with the number of rejection samples set to 1 instead of 8. This level barely has any cells painted on it, certainly far less than the levels shown in Figures \ref{fig:poisson1} and \ref{fig:poisson2}. This level took 3ms to create.}
     \label{fig:poisson3}
 \end{figure}
