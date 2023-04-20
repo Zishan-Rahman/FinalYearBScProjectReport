@@ -115,4 +115,41 @@ With L-Systems, it was found that level layouts, particularly with the default g
     \label{fig:lsys2}
 \end{figure}
 
-As aforementioned, the Voronoi Cells implementation produced wholly unique level layouts compared to the other 3 implementations. This is mainly because every cell in the tile map, in the generated level, will be covered by either a tree or a building from the outset, hence the need for the golem and the ring to be painted over existing trees. Furthermore, the \textit{minimum} value for the number of random starting points (and therefore the number of Voronoi cells in a single tesselation) is 15, 2 more than the number of tree tiles; it had to be done this way to \textbf{really} ensure that a level would even be \textit{remotely} playable, which greatly affected the kinds of layouts that could be generated.
+As aforementioned, the Voronoi Cells implementation produced wholly unique level layouts compared to the other 3 implementations. This is mainly because every cell in the tile map, in the generated level, will be covered by either a tree or a building from the outset, hence the need for the golem and the ring to be painted over existing trees. Furthermore, the \textit{minimum} value for the number of random starting points (and therefore the number of Voronoi cells in a single tesselation) is 15, 2 more than the number of tree tiles; it had to be done this way to \textbf{really} ensure that a level would even be \textit{remotely} playable, which greatly affected the kinds of layouts that could be generated. Figures \ref{fig:voronoilevel1} and \ref{fig:voronoilevel2} show 2 different levels, the former created with 15 starting points, producing the same number of unique Voronoi cells, with the Manhattan distance calculation, and the latter created with \textit{25} starting points, producing the same number of unique Voronoi cells, with the \textit{Euclidean} distance calculation. Neither level is any similar to the levels produced by \textit{any} of the other implementations, nor are they the most appropriate for our chosen scenario. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/voronoi-15-367ms.png}
+    \caption{A level layout created with the Voronoi Cells implementation, using the Manhattan distance and 15 random starting points (therefore 15 unique cells). This level took 367ms to create.}
+    \label{fig:voronoilevel1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/voronoi-25-658ms.png}
+    \caption{A level layout created with the Voronoi Cells implementation, using the Euclidean distance and 25 random starting points (therefore 25 unique cells). This level took 658ms to create.}
+    \label{fig:voronoilevel2}
+\end{figure}
+
+\section{Final Ranking On Which Algorithm Is Best For the Chosen Scenario}
+
+The following is a final ranking on which algorithm this paper has decided is best for the chosen RPG scenario, 1 being the most preferred and 4 being by far the least.
+
+\begin{enumerate}
+    \item \textbf{Perlin/Simplex Noise}
+    \begin{itemize}
+        \item Produces easily navigable layouts with random-\textit{looking} tree and building placement and ample, but not too much, empty space, all in a reasonably fast time, with much configuration done (\hyperref[noisedefaults]{see default values}).
+    \end{itemize}
+    \item \textbf{Poisson Disk Sampling/Distribution}
+    \begin{itemize}
+        \item Produces very similar level layouts to that of Perlin/Simplex Noise. However, it is slightly less preferrable to that of Perlin/Simplex Noise due to the longer processing times.
+    \end{itemize}
+    \item \textbf{Lindenmayer System}
+    \begin{itemize}
+        \item Produces somewhat different level layouts to those of the previous 2 implementations, with a more maze-like arrangement and little variance between generated levels due to the nature of L-Systems.
+    \end{itemize}
+    \item \textbf{Voronoi Cells}
+    \begin{itemize}
+        \item Produces \textbf{very} different level layouts to those of the previous 3 implementations, with \textbf{all} cells being covered in the final arrangement, so much so that the scenario, as well as the code behind the player and ring, had to be changed accordingly.
+    \end{itemize}
+\end{enumerate}
