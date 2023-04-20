@@ -1,18 +1,18 @@
 \chapter{Results \& Evaluation} \label{Evaluation}
 
-Here I will mention how I tested the small games and made sure they ran as they should.
+Here, we will discuss how the implementations of the algorithms in our scenario were tested and ensured that they ran as they should.
 
 \section{Software Testing}
 
 Due to the nature of the project (being several implementations of a computer game), the testing behind this project has solely revolved around trial-and-error, messing around with the exported variables in the Godot editor to see how things worked and what configurations worked best for our scenario. This involved taking many screenshots of generated levels and examining things by eye, seeing how layouts compared across implementations.
 
-Despite this, I decided to run some simple performance tests to see how long each algorithm ran. These tests took some of the custom export variables I set and ran them several times, with an average time calculated to the nearest millisecond. For the Noise implementation, these tests are in tables \ref{fig:table1}, in which I paired each noise algorithm with each cellular distance function, and \ref{fig:table2}, in which I paired each noise algorithm with each fractal type.
+Despite this, I decided to run some simple performance tests to see how long each algorithm ran. These tests took some of the custom export variables from the scene scripts and ran them several times, with an average time calculated to the nearest millisecond. For the Noise implementation, these tests are in tables \ref{fig:table1}, in which each noise algorithm was paired with each cellular distance function, and \ref{fig:table2}, in which each noise algorithm was paired with each fractal type.
 
 \section{Comparing the Different Algorithms and Drawing Conclusions on Which Ones Are Best}
 
 \subsection{Performance}
 
-With the L-System implementation, I had no problems running the game very quickly on my machine, and quickly got satisfactory results. The table in Figure \ref{fig:table3} shows that the processing times remained miniscule even as the length of the axiom increased.
+With the L-System implementation, there were no problems whatsoever running the game very quickly on my machine, and quickly got satisfactory results. The table in Figure \ref{fig:table3} shows that the processing times remained miniscule even as the length of the axiom increased.
 
 While my Noise implementation was slower than my L-System implementation by a magnitude, it was still satisfactorily quick.
 
@@ -22,7 +22,7 @@ Voronoï Cells took the longest to compute on average. Computations with the Euc
 
 \subsection{Layouts}
 
-Of the 4 implementations I made, the Noise and Poisson Disk Sampling implementation were by far the most similar, followed by the L-System implementation, and then the Voronoï Cells implementation, which was far and away the most unique.
+Of the 4 implementations that were made for this project, the Noise and Poisson Disk Sampling implementation were by far the most similar, followed by the L-System implementation, and then the Voronoï Cells implementation, which was far and away the most unique.
 
 While the noise implementations varied greatly depending on what settings were used, and the way the implementation was designed allowed for very many possibilities as to how the noise would turn out (and how it would affect the final level), the results that I found produced the most similar results to that of the Poisson Disk Sampling implementation had the following configurations:
 
