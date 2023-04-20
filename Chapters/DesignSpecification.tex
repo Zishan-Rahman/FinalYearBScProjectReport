@@ -36,7 +36,13 @@ To help determine what was wanted from these implementations and how similar the
 
 \section{Comparing Layouts-Wise}
 
-Comparing the layouts involved trying out the implementations throughout their continuous development for this project. This involved tweaking values and calculations around. For instance, the Voronoï cells implementation involved the use of two different distance calculations that produced wildly differing cells and cell shapes. The ``FastNoiseLite" class in Godot includes various configurable properties for noise images, such as the frequency of the noise, the fractal type used to alter the generated noise and even the noise 
+Comparing the layouts involved trying out the implementations throughout their continuous development for this project. This involved tweaking values and calculations around.
+
+For instance, the Voronoï cells implementation involved the use of two different distance calculations that produced wildly differing cells and cell shapes.
+
+The ``FastNoiseLite" class in Godot includes various configurable properties for noise images, such as the frequency of the noise, the fractal type used to alter the generated noise and even the noise algorithm used.
+
+In the Voronoi Cells implementation, we can choose whether to use the Euclidean or Manhattan distance calculation, each producing different kinds of Voronoi tesselations as shown in Figures \ref{fig:voronoicomparison} and \ref{fig:secondvoronoicomparison}.
 
 \section{Comparing Performance-Wise}
 
