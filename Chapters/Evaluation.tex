@@ -12,13 +12,13 @@ Despite this, it was eventually decided to run some simple performance tests to 
 
 \subsection{Performance}
 
-With the L-System implementation, there were no problems whatsoever running the game very quickly on the author of this report's machine, and quickly got satisfactory results. The table in Figure \ref{fig:table3} shows that the processing times remained miniscule, even as the length of the axiom increased.
+With the L-System implementation, there were no problems whatsoever running the game very quickly on the author of this report's machine, and quickly got satisfactory results. The table in Figure \ref{fig:table3} shows that the processing times remained miniscule, even as the maximum length of the axiom increased. With the default values for all export variables, it took an average of 16ms for the L-System implementation to generate levels, by far the fastest out of all the implementations that were created for this report.
 
 While the Noise implementation was slower than the L-System implementation by a magnitude, it was still satisfactorily quick. Some timed tests were run in which this paper's author tested how some of the properties affected the time it took to generate the noise. These tests are referred to in tables \ref{fig:table1}, in which each noise algorithm was paired with each cellular distance function, and \ref{fig:table2}, in which each noise algorithm was paired with each fractal type. With the default values set \hyperref[noisedefaults]{here}, it was found that it took an average of 81ms, as shown in table \ref{fig:table6}.
 
-With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout while also keeping level creation times to a satisfactory minimum. It took an average of 268ms to work satisfactory with 8 rejection samples in the tests in table \ref{fig:table4}. If the rejection samples were given a too high value, there was a high  chance that the game would hang and not return any cell points at all, because it just took \textit{way} too long to process.
+With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even then, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout while also keeping level creation times to a satisfactory minimum. It took an average of 268ms to work satisfactory with 8 rejection samples in the tests in table \ref{fig:table4}. If the rejection samples were set to a too high value, there was a high  chance that the game would hang and not return any cell points at all, because it just took \textit{way} too long to process. However, that does not always happen; as referenced in the caption of table \ref{fig:table4}, on one occasion, when the value of rejection samples was set to 18, the game \textit{did} stall, and had to be restarted again so that enough processing times could be recorded.
 
-Voronoï Cells took the longest to compute on average. Computations with the Euclidean distance measurement took longer than those measured with the Manhattan distance.
+Voronoï Cells took the longest to compute on average. Computations with the Euclidean distance measurement took longer than those measured with the Manhattan distance, and the number of random starting points (and therefore the number of unique Voronoï cells in a single tesselation) increased level generation times as well. Both of those results are solidly proven in table \ref{fig:table5}.
 
 \subsection{Layouts}
 
@@ -40,14 +40,14 @@ The default noise frequency in ``FastNoiseLite" is 0.01, which results in smooth
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/simplex_smooth_default_1.png}
+    \includegraphics[width=0.8\textwidth]{Images/simplex_smooth_default_1.png}
     \caption{A level of our scenario generated in the Simplex Noise implementation, using all of the default values \hyperref[noisedefaults]{shown here}. The level took a total of 99 milliseconds to be made.}
     \label{fig:simplexsmoothdefault1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/simplex_smooth_0.01_frequency.png}
+    \includegraphics[width=0.8\textwidth]{Images/simplex_smooth_0.01_frequency.png}
     \caption{A level of our scenario generated in the Simplex Noise implementation, setting the noise frequency to 0.01 (the default value for noise frequency in ``FastNoiseLite") and using the rest of the defaults \hyperref[noisedefaults]{shown here}. The level took a total of 104 milliseconds to be made.}
     \label{fig:simplexsmooth0.01}
 \end{figure}
