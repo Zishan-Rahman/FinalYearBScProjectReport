@@ -4,52 +4,50 @@
 % How do I make sure the implementation is like for like
 % 
 
-Here, I will provide an abstract level of how I compared the performance of each content generation algorithm and how I made sure each implementation could produce as similar/like-for-like results as possible (and where they \textit{couldn't} do so). I delve into more specifics and quantified data in Chapter \ref{Evaluation}.
+Here, I will provide an abstract level of how the performance of each content generation algorithm was compared and how it was ensured that each implementation could produce as similar/like-for-like results as possible (and where they \textit{couldn't} do so). More specifics and quantified data are delved into in Chapter \ref{Evaluation}.
 
 \section{What I Was Looking For In The ``Best" Implementation Of My Scenario}
 
-To help determine 
+To help determine what was wanted from these implementations and how similar they should be, it was decided, after repeatedly trying out the implementations as they were continually worked on and finessed, that they should adhere to the following \textit{specification}, which best fit the chosen scenario:
 
-\section{Performance}
-
-With the L-System implementation, I had no problems running the game very quickly on my machine, and quickly got satisfactory results results.
-
-While my Noise implementation was slower than my L-System implementation by a magnitude, 
-
-With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout while also keeping level creation times to a minimum.
-
-Voronoï Cells took the longest to compute on average. Computations with the Euclidean distance measurement took longer than those measured with the Manhattan distance.
-
-\section{Layouts}
-
-Of the 4 implementations I made, the Noise and Poisson Disk Sampling implementation were by far the most similar, followed by the L-System implementation, and then the Voronoï Cells implementation, which was far and away the most unique.
-
-While the noise implementations varied greatly depending on what settings were used, and the way the implementation was designed allowed for very many possibilities as to how the noise would turn out (and how it would affect the final level), the results that I found produced the most similar results to that of the Poisson Disk Sampling implementation had the following configurations:
-
-\begin{itemize} \label{noisedefaults}
-    \item Noise Type (``noise\_type"): Simplex Smooth
-    \item Fractal Type (``fractal\_type"): Fractal None
-    \item Cellular Distance Type/Function (``cellular\_distance\_type"): Distance Euclidean
-    \item Noise Frequency (``noise\_frequency"): 0.894
-    \item Tree Cap (``tree\_cap"): -0.048
-    \item Building Cap (``building\_cap"): -0.252
-    \item Building Overtakes Tree (``building\_overtakes\_tree"): 0.12
+\begin{itemize}
+    \item They should produce levels that are able to be completed every time; that is, the player character should be able to collect the ring and win the game every single time.
+    \begin{itemize}
+        \item This was part of the motivation between the idea that there should be free space to move around from the outset.
+    \end{itemize}
+    \item There should ideally be an ample amount of free space to move around.
+    \begin{itemize}
+        \item While the golem can ``eat" trees to gradually create new free space over time, it was highly desired for the levels to \textit{start} off relatively spatial in this regard, while also still containing a very highly ample amount of trees and buildings within the boundaries of the levels.
+    \end{itemize}
+    \item The golem and ring should be spawned separately from the generated environment.
+    \begin{itemize}
+        \item By \textit{always} placing the tree and golem in an empty space that \textit{was not} always the top-right corner (or spawning at a tree for the Voronoi cells implementation where all cells are occupied), it would ensure that the player can start and win the game by roaming on empty space and consuming trees on the way to collect the ring.
+        \item This was \textit{also} part of the motivation behind having free space from the outset.
+    \end{itemize}
+    \item The trees and buildings should be scattered around \textit{with purpose} (that is, they should \textit{look} very random while also being highly calculated behind the scenes), such that it should be quite hard, but not necessarily impossible, to discern which algorithm was behind which level.
+    \begin{itemize}
+        \item In the final implementations, like in Figure \ref{fig:simplexsmoothdefault1}, the levels they generate should \textit{seem} relatively similar to one another, albeit not necessarily identical.
+    \end{itemize}
+    \item Levels should be generated fairly quickly while still adhering to the other principles in my specification.
+    \begin{itemize}
+        \item While each algorithm did not need to be the \textit{fastest}, necessarily, any processing times above 500ms would not be advisable.
+    \end{itemize}
 \end{itemize}
 
-The default noise frequency in ``FastNoiseLite" is 0.01, which results in smoother and less disparate noise. As seen in Figure \ref{fig:simplexsmooth0.01}, the smoother noise and lower frequency results in a distinct kind of level layout in which represents some of the noise values in the image very clearly, such that tiles (both buildings and trees) are bunched together in partially interconnected groups, forming long, large lines of painted tiles. To describe this as best as possible, it is easy to discern that the level layout was determined from a noise image. Using a higher noise frequency to produce rougher noise, and more disparate level layouts, yields results like in Figure \ref{fig:simplexsmoothdefault1}, which makes it very similar to the layouts yielded in my Poisson Disk Sampling implementation and, to a lesser extent, my L-System implementation. While I personally like the former kind of level layout, part of the aim of this project was to compare in terms of which could produce the most similar, and, compared to the L-System and Poisson Disk Sampling implementations, the Noise implementation with the frequency set to 0.01 was far too distinct, hence the want to change it up.
+\section{Comparing Layouts-Wise}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Images/simplex_smooth_default_1.png}
-    \caption{A level of our scenario generated in the Simplex Noise implementation, using all of the default values \hyperref[noisedefaults]{shown here}. The level took a total of 99 milliseconds to be made.}
-    \label{fig:simplexsmoothdefault1}
-\end{figure}
+Comparing the layouts involved trying out the implementations throughout their continuous development for this project. This involved tweaking values and calculations around. For instance, the Voronoi cells implementation involved the use of two different distance calculations that produced wildly differing cells and cell shapes. The ``FastNoiseLite" class in Godot includes various configurable properties for noise images, such as the frequency of the noise, the fractal type used to alter the generated noise and even the noise 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Images/simplex_smooth_0.01_frequency.png}
-    \caption{A level of our scenario generated in the Simplex Noise implementation, setting the noise frequency to 0.01 (the default value for noise frequency in ``FastNoiseLite") and using the rest of the defaults \hyperref[noisedefaults]{shown here}. The level took a total of 104 milliseconds to be made.}
-    \label{fig:simplexsmooth0.01}
-\end{figure}
+\section{Comparing Performance-Wise}
 
-The 
+Comparing each implementation performance-wise was far easier than comparing them layout-wise, since this did not rely on assessing layouts by eye. Checking the quantified performance time for all algorithms involved both a print statement in the ``\_ready" function \textbf{and} the processing time showing in the opening story dialog, the text of which was \textit{also} set in the ``\_ready" function.
+
+Calculating the processing time in the ``\_ready" function for all implementations involves:
+
+\begin{enumerate}
+    \item The calculations and processing of the algorithm itself.
+    \item The painting of cells using results returned by the algorithm.
+    \item The random placement of the golem.
+    \item The random placement of the ring.
+\end{enumerate}
+
