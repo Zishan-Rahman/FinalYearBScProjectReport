@@ -6,7 +6,7 @@ Here, we will discuss how the implementations of the algorithms in our scenario 
 
 Due to the nature of the project (being several implementations of a computer game), the testing behind this project has solely revolved around trial-and-error, messing around with the exported variables in the Godot editor to see how things worked and what configurations worked best for our scenario. This involved taking many screenshots of generated levels and examining things by eye, seeing how layouts compared across implementations.
 
-Despite this, it was eventually decided to run some simple performance tests to see how long each algorithm ran. These tests took some of the custom export variables from the scene scripts and ran them several times, with an average time calculated to the nearest millisecond. For the Noise implementation, these tests are in tables \ref{fig:table1}, in which each noise algorithm was paired with each cellular distance function, and \ref{fig:table2}, in which each noise algorithm was paired with each fractal type.
+Despite this, it was eventually decided to run some simple performance tests to see how long each algorithm ran. These tests took some of the custom export variables from the scene scripts and ran them several times, with an average time calculated to the nearest millisecond. The results of these tests are all in table in the \hyperref[Appendix]{Appendix}.
 
 \section{Comparing the Different Algorithms and Drawing Conclusions on Which Ones Are Best}
 
@@ -14,7 +14,7 @@ Despite this, it was eventually decided to run some simple performance tests to 
 
 With the L-System implementation, there were no problems whatsoever running the game very quickly on the author of this report's machine, and quickly got satisfactory results. The table in Figure \ref{fig:table3} shows that the processing times remained miniscule even as the length of the axiom increased.
 
-While the Noise implementation was slower than the L-System implementation by a magnitude, it was still satisfactorily quick.
+While the Noise implementation was slower than the L-System implementation by a magnitude, it was still satisfactorily quick. I ran some timed tests in which I tested how some of the properties affected the time it took to generate the noise. These tests are referred to in tables \ref{fig:table1}, in which each noise algorithm was paired with each cellular distance function, and \ref{fig:table2}, in which each noise algorithm was paired with each fractal type.
 
 With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout while also keeping level creation times to a minimum.
 
