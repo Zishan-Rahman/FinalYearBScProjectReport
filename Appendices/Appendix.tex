@@ -1,8 +1,8 @@
 \chapter{Extra Information} \label{Appendix}
-\section{Tables, proofs, graphs, test cases, ...}
+\section{Tables \& Test Cases}
 % The appendices contain information that is peripheral to the main body of the report. Information typically included in the Appendix are things like tables, proofs, graphs, test cases or any other material that would break up the theme of the text if it appeared in the body of the report. It is necessary to include your source code listings in an appendix that is separate from the body of your written report (see the information on Program Listings below).
 
-This section contains tables and test cases mentioned in the \hyperref[Evaluation]{Evaluation} section of this report. They are included here as they remain peripheral to the main body of this report, and would break up the theme and flow of the text if it appeared in the body, as would the source code listings featured in chapter \ref{Code}.
+This section contains tables and test cases mentioned in the \hyperref[Evaluation]{Evaluation} section of this report. They are included here as they remain peripheral to the main body of this report, and would break up the theme and flow of the text if it appeared in the body, as would the source code listings featured in chapter \ref{Code} and the detailed user guide featured in chapter \ref{Guide}.
 
 \begin{figure}[H]
     \centering
@@ -90,7 +90,7 @@ This section contains tables and test cases mentioned in the \hyperref[Evaluatio
     \end{tabular}%
     }
     \end{center}
-    \caption{A table denoting some performance tests done with comparing the noise algorithms, the fractal types and the combination pairs between them. This was done on the Noise implementation of the game; the ``tests" were simply checking how long it took to create levels on the author of this report's computer, and all the other script variables were assigned to their default values as described in chapter \ref{Design}.. Each noise type and fractal type pair was run 3 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
+    \caption{A table denoting some performance tests done with comparing the noise algorithms, the fractal types and the combination pairs between them. This was done on the Noise implementation of the game; the ``tests" were simply checking how long it took to create levels on the author of this report's computer, and all the other script variables were assigned to their default values as described in chapter \ref{Design}. Each noise type and fractal type pair was run 3 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
     \label{fig:table2}
 \end{figure}
 
@@ -111,6 +111,80 @@ This section contains tables and test cases mentioned in the \hyperref[Evaluatio
     \end{tabular}%
     }
     \end{center}
-    \caption{A table denoting some performance tests done with comparing the lengths of axioms used in L-Systems. Obviously, this was done on the L-System implementation of the game; the ``tests" were simply checking how long it took to create levels on the author of this report's computer, as well as how long the randomly generated axioms were (where appropriate), and all the other script variables were assigned to their default values. Each of the shown settings was run 5 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
+    \caption{A table denoting some performance tests done with comparing the lengths of axioms used in L-Systems. Obviously, this was done on the L-System implementation of the game; the ``tests" were simply checking how long it took to create levels on the author of this report's computer, as well as how long the randomly generated axioms were (where appropriate), and all the other script variables were assigned to their default values. Each of the shown settings were run 5 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
     \label{fig:table3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{center}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    rejection\_samples &
+      3 &
+      8 &
+      13 &
+      18 \\ \hline
+    time &
+      \begin{tabular}[c]{@{}c@{}}170ms\\ 103ms\\ 111ms\\ AVG: 128ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}337ms\\ 224ms\\ 242ms\\ AVG: 268ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}444ms\\ 392ms\\ 388ms\\ AVG: 408ms\end{tabular} &
+      {\color[HTML]{FE0000} \begin{tabular}[c]{@{}c@{}}503ms\\ 505ms\\ 670ms\\ AVG: 559ms\end{tabular}} \\ \hline
+    \end{tabular}%
+    }
+    \end{center}
+    \caption{A table denoting some performance tests done with comparing the number of rejection samples used for Poisson Disk Sampling. Obviously, this was done on the Poisson Disk Sampling/Distribution implementation of the game; the ``tests" were simply checking how long it took to create levels on the author of this report's computer, and all the other script variables were assigned to their default values. Each of the shown settings were run 3 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. The bottom cell of the rightmost column, with tests done with 18 rejection samples, is highlighted red because, while testing with 18 rejection samples, at one time the program hung without returning any cell points within 10 seconds. The test had to be retaken another time. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
+    \label{fig:table4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{center}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|cccc|}
+    \hline
+     &
+      \multicolumn{4}{c|}{{\color[HTML]{FE0000} Random Starting Points}} \\ \hline
+    {\color[HTML]{00009B} Distance type} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} 15}} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} 20}} &
+      \multicolumn{1}{c|}{{\color[HTML]{FE0000} 30}} &
+      {\color[HTML]{FE0000} 40} \\ \hline
+    {\color[HTML]{00009B} Euclidean distance} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}393ms\\ 385ms\\ 362ms\\ AVG: 380ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}496ms\\ 504ms\\ 497ms\\ AVG: 499ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}775ms\\ 744ms\\ 723ms\\ AVG: 747ms\end{tabular}} &
+      \begin{tabular}[c]{@{}c@{}}968ms\\ 970ms\\ 967ms\\ AVG: 968ms\end{tabular} \\ \hline
+    {\color[HTML]{00009B} Manhattan Distance} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}364ms\\ 346ms\\ 346ms\\ AVG: 352ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}441ms\\ 470ms\\ 437ms\\ AVG:449ms\end{tabular}} &
+      \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}645ms\\ 630ms\\ 650ms\\ AVG: 642ms\end{tabular}} &
+      \begin{tabular}[c]{@{}c@{}}843ms\\ 835ms\\ 908ms\\ AVG: 862ms\end{tabular} \\ \hline
+    \end{tabular}%
+    }
+    \end{center}
+    \caption{A table denoting some performance tests done with comparing the distance calculation algorithms, the number of random starting points and the combination pairs between them. This was done on the Voronoi Cells implementation of the game, and thus the number of random starting points corresponds directly to the number of unique Voronoi cells generated for each level. The ``tests" were simply checking how long it took to create levels on the author of this report's computer. Each of the shown settings were run 3 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
+    \label{fig:table5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{center}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    L-System &
+      Perlin/Simplex Noise &
+      Poisson Disk Sampling/Distribution &
+      Voronoi Cells \\ \hline
+    \begin{tabular}[c]{@{}c@{}}24ms\\ 10ms\\ 14ms\\ 14ms\\ 17ms\\ AVG: 16ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}78ms\\ 78ms\\ 82ms\\ 91ms\\ 75ms\\ AVG: 81ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}176ms\\ 190ms\\ 210ms\\ 216ms\\ 193ms\\ AVG: 197ms\end{tabular} &
+      \begin{tabular}[c]{@{}c@{}}502ms\\ 425ms\\ 455ms\\ 449ms\\ 442ms\\ AVG: 455ms\end{tabular} \\ \hline
+    \end{tabular}%
+    }
+    \end{center}
+    \caption{A table denoting some performance tests done with comparing all of the algorithms implemented with the chosen scenario. This was done on every single implementation implementation of the game; the ``tests" were simply checking how long it took to create levels on the author of this report's computer, and every implementation was tested with its default variable values. Each of the implementations were run 5 times, with the mean time (including potential outliers) calculated afterwards \textit{to the nearest integer}. Be advised that the author of this report did these tests on his computer, so on different computers, results can, and likely \textit{will}, vary.}
+    \label{fig:table6}
 \end{figure}
