@@ -60,7 +60,8 @@ I also have 3 other export variables:
 
 \begin{itemize}
     \item ``point\_radius", which sets the distance between points during calculation, in that no point can be within a radius distance of other points. By default it is set to 1.0.
-    \item ``"
+    \item ``paint\_building\_probability", which determines whether or not to print a building tile in lieu of a tree tile at a cell (overwriting any existing tile if there is any at that cell). By default it is set to 0.125, the higher the value (between 0.0 and 1.0 inclusive), the more likely a building is to be painted and the more buildings that will appear in the final level.
+    \item ``region\_size", which, by default, is set to the current tile map size (72, 40), although that does not show properly in the editor. These values can be changed for a smaller region size, which can result in faster processing times, but this is not best advised for our chosen scenario, due to the fact that not all cells in the current tile map will be covered this way.
 \end{itemize}
 
 \begin{figure}[H]
@@ -82,4 +83,11 @@ I also have 3 other export variables:
     \includegraphics[width=0.8\textwidth]{Images/poisson-1-sample.png}
     \caption{A level layout set with the number of rejection samples set to 1 instead of 8. This level barely has any cells painted on it, certainly far less than the levels shown in Figures \ref{fig:poisson1} and \ref{fig:poisson2}. This level took 3ms to create.}
     \label{fig:poisson3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/poisson-radius-1.564.png}
+    \caption{A level layout set with the radius (``point\_radius") to 1.564 instead of the default 1.0. As you can see, this results in further spaced-apart cells and more empty space. This level took 135ms to create.}
+    \label{fig:poisson4}
 \end{figure}
