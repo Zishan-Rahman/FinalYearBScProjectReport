@@ -15,7 +15,7 @@ To run the projects in the .zip file, extract the projects into one folder. Then
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Images/scan-folder.png}
-    \caption{You can click the "Scan" button in the project manager (in Figure \ref{fig:godot1}), then go to the relevant folder where your project are in Godot's built-in file explorer. Here, I have extracted my artefacts into a separate folder called ``Scan this folder" as an example.}
+    \caption{You can click the "Scan" button in the project manager (in Figure \ref{fig:godot1}), then go to the relevant folder where your project are in Godot's built-in file explorer. Here, the artefacts behind this project have been exported into a separate folder called ``Scan this folder" as an example.}
     \label{fig:godot2}
 \end{figure}
 
@@ -35,15 +35,15 @@ To run the projects in the .zip file, extract the projects into one folder. Then
 
 \section{The Godot Editor} \label{editor}
 
-As you open up the Godot editor, you will see the main scene view in the center, as shown in Figure \ref{fig:godot4}, using the Voronoi cells implementation as an example. The left-hand side shows the scene tree at the top, and the file system (from the root folder of the project) at the bottom. Meanwhile, the right hand side shows the currently selected node's export variables, \textit{including the custom export variables} defined in the node's script file, and two other tabs, ``Node" (which shows a list of signals for the scene that could be called in a script) and ``History" (which shows the sequence of recent actions performed on the scene during the current session). Above this is also a set of buttons which can be used for playing the project and/or the current scene. I go over how to run the current project in chapter \ref{runproject}.
+As you open up the Godot editor, you will see the main scene view in the center, as shown in Figure \ref{fig:godot4}, using the Voronoi cells implementation as an example. The left-hand side shows the scene tree at the top, and the file system (from the root folder of the project) at the bottom. Meanwhile, the right hand side shows the currently selected node's export variables, \textit{including the custom export variables} defined in the node's script file, and two other tabs, ``Node" (which shows a list of signals for the scene that could be called in a script) and ``History" (which shows the sequence of recent actions performed on the scene during the current session). Above this is also a set of buttons which can be used for playing the project and/or the current scene. We go over how to run the current project in chapter \ref{runproject}.
 
 \section{Custom Export Variables} 
 
-When you click on some of the scenes in the projects, there may be some "exported" variables from scripts that are visible to you in the editor (examples include the "Distance" and "Random Starting Points" variables in the Voronoi Cells project). You can hover over the variable names in the editor and it will show a brief description of what the variable correlates to in the script. I go over the different export variables across all of my artefacts in this section.
+When you click on some of the scenes in the projects, there may be some "exported" variables from scripts that are visible to you in the editor (examples include the "Distance" and "Random Starting Points" variables in the Voronoi Cells project). You can hover over the variable names in the editor and it will show a brief description of what the variable correlates to in the script. We will now go over the different export variables across all of my artefacts in this section.
 
 \subsection{Lindenmayer System}
 
-All of the custom export variables I defined for your use are in the child node ``LSystem" (it is saved into its own scene file, but it is cheifly a child node of the root node ``TileMap"). Open the ``TileMap" scene (if it is not already opened for you when you launch the Godot editor) and click on the ``LSystem" node in the scene tree to edit it.
+All of the custom export variables defined in scene scripts for your use are in the child node ``LSystem" (it is saved into its own scene file, but it is cheifly a child node of the root node ``TileMap"). Open the ``TileMap" scene (if it is not already opened for you when you launch the Godot editor) and click on the ``LSystem" node in the scene tree to edit it.
 
 \begin{enumerate}
     \item axiom
