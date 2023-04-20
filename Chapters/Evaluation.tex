@@ -53,3 +53,17 @@ The default noise frequency in ``FastNoiseLite" is 0.01, which results in smooth
 \end{figure}
 
 The Poisson Disk Sampling implementation also produced similar levels, with the main difference higher level processing times, as shown in section \ref{performance}. The lower the number of rejection samples, the quicker the processing times, but the lower the number of tiles painted in the tile map. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{Images/default-poisson-result.png}
+    \caption{A level layout set with the default number of rejection samples (8). This level took 222ms to create.}
+    \label{fig:poisson1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{Images/default-poisson-result.png}
+    \caption{A level layout set with the default number of rejection samples (8). This level took 87ms to create.}
+    \label{fig:poisson2}
+\end{figure}
