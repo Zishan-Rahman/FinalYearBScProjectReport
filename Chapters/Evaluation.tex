@@ -99,5 +99,20 @@ I also have 3 other export variables:
     \label{fig:poisson5}
 \end{figure}
 
-With L-Systems, it was found that level layouts, particularly with the default grammar, had noticeable patterns and were more ``maze-like". It seemed that one could not go into the L-System implementation of the scenario without noticing that points were not entirely scattered around. Some variance was added by setting a random axiom, up to a specified \textit{maximum} length, but any variance it \textit{did} add was very little compared to how much was needed for our scenario.
+With L-Systems, it was found that level layouts, particularly with the default grammar, had noticeable patterns and were more ``maze-like". It seemed that one could not go into the L-System implementation of the scenario without noticing that points were not entirely scattered around. Some variance was added by setting a random axiom, up to a specified \textit{maximum} length, but any variance it \textit{did} add was very little compared to how much was needed for our scenario (see Figures \ref{fig:lsys1} and \ref{fig:lsys2}).
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/lsystem1-19ms.png}
+    \caption{A level layout created with the L-System implementation using the default grammar and all other default variable settings. This level took 19ms to create.}
+    \label{fig:lsys1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/lsystem2-24ms.png}
+    \caption{A level layout created with the L-System implementation using the default grammar and all other default variable settings. This level took 24ms to create.}
+    \label{fig:lsys2}
+\end{figure}
+
+As aforementioned, the Voronoi Cells implementation produced wholly unique level layouts compared to the other 3 implementations. This is mainly because every cell in the tile map, in the generated level, will be covered by either a tree or a building from the outset, hence the need for the golem and the ring to be painted over existing trees. Furthermore, the \textit{minimum} value for the number of random starting points (and therefore the number of Voronoi cells in a single tesselation) is 15, 2 more than the number of tree tiles; it had to be done this way to \textbf{really} ensure that a level would even be \textit{remotely} playable, which greatly affected the kinds of layouts that could be generated.
