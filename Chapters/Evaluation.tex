@@ -98,3 +98,6 @@ I also have 3 other export variables:
     \caption{A level layout set with the probability of buildings being painted over trees set to 0.5 instead of the default 0.125. As you can see, this results in more building tiles being painted in the tile map than usual. This level took 293ms to create.}
     \label{fig:poisson5}
 \end{figure}
+
+With L-Systems, it was found that level layouts, particularly with the default grammar, had noticeable patterns and were more ``maze-like". It seemed that one could not go into the L-System implementation of the scenario without noticing that points were not entirely scattered around. Some variance was added by setting a random axiom, up to a specified \textit{maximum} length, but any variance it \textit{did} add was very little compared to how much was needed for our scenario.
+
