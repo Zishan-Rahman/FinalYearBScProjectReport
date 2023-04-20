@@ -44,6 +44,8 @@ The ``FastNoiseLite" class in Godot includes various configurable properties for
 
 In the Voronoi Cells implementation, we can choose whether to use the Euclidean or Manhattan distance calculation, each producing different kinds of Voronoi tesselations as shown in Figures \ref{fig:voronoicomparison} and \ref{fig:secondvoronoicomparison}.
 
+Other default variables that have noticeable effect on layouts include the point radius and rejection samples in the Poisson Disk Sampling implementation and the "Use Random Axiom" setting (and its related "Upper Limit" setting) in the L-System implementation.
+
 \section{Comparing Performance-Wise}
 
 Comparing each implementation performance-wise was far easier than comparing them layout-wise, since this did not rely on assessing layouts by eye. Checking the quantified performance time for all algorithms involved both a print statement in the ``\_ready" function \textbf{and} the processing time showing in the opening story dialog, the text of which was \textit{also} set in the ``\_ready" function.
