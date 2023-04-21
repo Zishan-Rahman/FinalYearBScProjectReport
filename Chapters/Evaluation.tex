@@ -18,11 +18,11 @@ While the Noise implementation was slower than the L-System implementation by a 
 
 With Poisson Disk Sampling, the higher the number of rejection samples (that is, the higher the maximum number of times a cell was sampled before it was either accepted or ultimately rejected), the longer it took to generate a complete level layout, and even then, due to the nature of the tile map compared to the algorithm's \textit{usual} use (of scattering dots on a plane), it was not maximal (not all points had cells painted for them; some cells had their tiles overwritten as well). Using 8 rejection samples was usually enough to yield a satisfactory level layout while also keeping level creation times to a satisfactory minimum. It took an average of 268ms to work with 8 rejection samples in the tests in table \ref{fig:table4}, and 197ms in some additional tests done in table \ref{fig:table6}. If the rejection samples were set to a too high value, there was a high  chance that the game would hang and not return any cell points at all, because it just took \textit{way} too long to process. However, that does not always happen; as referenced in the caption of table \ref{fig:table4}, on one occasion, when the value of rejection samples was set to 18, the game \textit{did} stall, and had to be restarted again so that enough processing times could be recorded.
 
-Voronoï Cells took the longest to compute on average. Computations with the Euclidean distance measurement took longer than those measured with the Manhattan distance, and the number of random starting points (and therefore the number of unique Voronoï cells in a single tesselation) increased level generation times as well. Both of those results are solidly proven in table \ref{fig:table5}, as well as table \ref{fig:table6}, in which, even \textit{with} the default values set, it \textit{still} took 455ms on average, far longer than any of the other implementations.
+Voronoi Cells took the longest to compute on average. Computations with the Euclidean distance measurement took longer than those measured with the Manhattan distance, and the number of random starting points (and therefore the number of unique Voronoi cells in a single tesselation) increased level generation times as well. Both of those results are solidly proven in table \ref{fig:table5}, as well as table \ref{fig:table6}, in which, even \textit{with} the default values set, it \textit{still} took 455ms on average, far longer than any of the other implementations.
 
 \subsection{Layouts}
 
-Of the 4 implementations that were made for this project, the Noise and Poisson Disk Sampling implementation were by far the most similar, followed by the L-System implementation, and then the Voronoï Cells implementation, which was far and away the most unique.
+Of the 4 implementations that were made for this project, the Noise and Poisson Disk Sampling implementation were by far the most similar, followed by the L-System implementation, and then the Voronoi Cells implementation, which was far and away the most unique.
 
 While the noise implementations varied greatly depending on what settings were used, and the way the implementation was designed allowed for very many possibilities as to how the noise would turn out (and how it would affect the final level), the results that were returned produced the most similar results to that of the Poisson Disk Sampling implementation had the following configurations:
 
@@ -115,19 +115,19 @@ With L-Systems, it was found that level layouts, particularly with the default g
     \label{fig:lsys2}
 \end{figure}
 
-As aforementioned, the Voronoï Cells implementation produced wholly unique level layouts compared to the other 3 implementations. This is mainly because every cell in the tile map, in the generated level, will be covered by either a tree or a building from the outset, hence the need for the golem and the ring to be painted over existing trees. Furthermore, the \textit{minimum} value for the number of random starting points (and therefore the number of Voronoï cells in a single tesselation) is 15, 2 more than the number of tree tiles; it had to be done this way to \textbf{really} ensure that a level would even be \textit{remotely} playable, which greatly affected the kinds of layouts that could be generated. Figures \ref{fig:voronoilevel1} and \ref{fig:voronoilevel2} show 2 different levels, the former created with 15 starting points, producing the same number of unique Voronoï cells, with the Manhattan distance calculation, and the latter created with \textit{25} starting points, producing the same number of unique Voronoï cells, with the \textit{Euclidean} distance calculation. Neither level is any similar to the levels produced by \textit{any} of the other implementations, nor are they the most appropriate for our chosen scenario. 
+As aforementioned, the Voronoi Cells implementation produced wholly unique level layouts compared to the other 3 implementations. This is mainly because every cell in the tile map, in the generated level, will be covered by either a tree or a building from the outset, hence the need for the golem and the ring to be painted over existing trees. Furthermore, the \textit{minimum} value for the number of random starting points (and therefore the number of Voronoi cells in a single tesselation) is 15, 2 more than the number of tree tiles; it had to be done this way to \textbf{really} ensure that a level would even be \textit{remotely} playable, which greatly affected the kinds of layouts that could be generated. Figures \ref{fig:voronoilevel1} and \ref{fig:voronoilevel2} show 2 different levels, the former created with 15 starting points, producing the same number of unique Voronoi cells, with the Manhattan distance calculation, and the latter created with \textit{25} starting points, producing the same number of unique Voronoi cells, with the \textit{Euclidean} distance calculation. Neither level is any similar to the levels produced by \textit{any} of the other implementations, nor are they the most appropriate for our chosen scenario. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/voronoi-15-367ms.png}
-    \caption{A level layout created with the Voronoï Cells implementation, using the Manhattan distance and 15 random starting points (therefore 15 unique cells). This level took 367ms to create.}
+    \caption{A level layout created with the Voronoi Cells implementation, using the Manhattan distance and 15 random starting points (therefore 15 unique cells). This level took 367ms to create.}
     \label{fig:voronoilevel1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/voronoi-25-658ms.png}
-    \caption{A level layout created with the Voronoï Cells implementation, using the Euclidean distance and 25 random starting points (therefore 25 unique cells). This level took 658ms to create.}
+    \caption{A level layout created with the Voronoi Cells implementation, using the Euclidean distance and 25 random starting points (therefore 25 unique cells). This level took 658ms to create.}
     \label{fig:voronoilevel2}
 \end{figure}
 
@@ -148,7 +148,7 @@ The following is a final ranking on which algorithm this paper has decided is be
     \begin{itemize}
         \item Produces somewhat different level layouts to those of the previous 2 implementations, with a more maze-like arrangement and little variance between generated levels due to the nature of L-Systems.
     \end{itemize}
-    \item \textbf{Voronoï Cells}
+    \item \textbf{Voronoi Cells}
     \begin{itemize}
         \item Produces \textbf{very} different level layouts to those of the previous 3 implementations, with \textbf{all} cells being covered in the final arrangement, so much so that the scenario, as well as the code behind the player and ring, had to be changed accordingly.
     \end{itemize}

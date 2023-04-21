@@ -21,7 +21,7 @@ To help determine what was wanted from these implementations and how similar the
     \end{itemize}
     \item The golem and ring should be spawned separately from the generated environment.
     \begin{itemize}
-        \item By \textit{always} placing the tree and golem in an empty space that \textit{was not} always the top-right corner (or spawning at a tree for the Voronoï cells implementation where all cells are occupied), it would ensure that the player can start and win the game by roaming on empty space and consuming trees on the way to collect the ring.
+        \item By \textit{always} placing the tree and golem in an empty space that \textit{was not} always the top-right corner (or spawning at a tree for the Voronoi cells implementation where all cells are occupied), it would ensure that the player can start and win the game by roaming on empty space and consuming trees on the way to collect the ring.
         \item This was \textit{also} part of the motivation behind having free space from the outset.
     \end{itemize}
     \item The trees and buildings should be scattered around \textit{with purpose} (that is, they should \textit{look} very random while also being highly calculated behind the scenes), such that it should be quite hard, but not necessarily impossible, to discern which algorithm was behind which level.
@@ -38,11 +38,11 @@ To help determine what was wanted from these implementations and how similar the
 
 Comparing the layouts involved trying out the implementations throughout their continuous development for this project. This involved tweaking values and calculations around.
 
-For instance, the Voronoï cells implementation involved the use of two different distance calculations that produced wildly differing cells and cell shapes.
+For instance, the Voronoi cells implementation involved the use of two different distance calculations that produced wildly differing cells and cell shapes.
 
 The ``FastNoiseLite" class in Godot includes various configurable properties for noise images, such as the frequency of the noise, the fractal type used to alter the generated noise and even the noise algorithm used.
 
-In the Voronoï Cells implementation, we can choose whether to use the Euclidean or Manhattan distance calculation, each producing different kinds of Voronoï tesselations as shown in Figures \ref{fig:voronoicomparison} and \ref{fig:secondvoronoicomparison}.
+In the Voronoi Cells implementation, we can choose whether to use the Euclidean or Manhattan distance calculation, each producing different kinds of Voronoi tesselations as shown in Figures \ref{fig:voronoicomparison} and \ref{fig:secondvoronoicomparison}.
 
 Other default variables that have noticeable effect on layouts include the point radius and rejection samples in the Poisson Disk Sampling implementation and the "Use Random Axiom" setting (and its related "Upper Limit" setting) in the L-System implementation.
 

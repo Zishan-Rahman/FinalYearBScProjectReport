@@ -237,13 +237,13 @@ var search_end_y: int = min(cell_y + 2, grid_y_axis_size - 1)
     \label{fig:pds5}
 \end{figure}
 
-\section{Voronoï Cells}
+\section{Voronoi Cells}
 
 The original JavaScript implementation, as mentioned before, had a ``randRange" function that was taken out, as it was not needed at all, but there was also an additional ``mapSize" parameter in ``definePoints" that, in \textit{our} ``define\_points" function, didn't really need, since the code makes sure the map's dimensions were readily accessible via the ``x\_tile\_range" and ``y\_tile\_range" script variable. Therefore, the second parameter in ``define\_points" was taken out, as shown in Figure \ref{fig:voronoi1}, and substituted it with ``x\_tile\_range" and ``y\_tile\_range" accordingly, as shown in Figure \ref{fig:voronoi3}.
 
-The type of each Voronoï cell was determined by taking, and then deleting, a value from the ``types" array. Said array is local to that function, and it is initialised by duplicating the ``trees" array, then appending it with the ``buildings" array, making sure the same type cannot be used for a Voronoï cell twice. Duplicating the array before merging it essentially makes sure that the \textit{original} ``trees" array is not affected by deletions performed on the ``types" array. This computation is shown in Figure \ref{fig:voronoi2}, and the deletion operation is shown in Figure \ref{fig:voronoi4}.
+The type of each Voronoi cell was determined by taking, and then deleting, a value from the ``types" array. Said array is local to that function, and it is initialised by duplicating the ``trees" array, then appending it with the ``buildings" array, making sure the same type cannot be used for a Voronoi cell twice. Duplicating the array before merging it essentially makes sure that the \textit{original} ``trees" array is not affected by deletions performed on the ``types" array. This computation is shown in Figure \ref{fig:voronoi2}, and the deletion operation is shown in Figure \ref{fig:voronoi4}.
 
-Another addition to our implementation of the algorithm was the choice of using either the Euclidean distance or Manhattan distance for calculating the distance between points that would form cells. This was done with a function ``calculate\_points\_delta", as shown in Figure \ref{fig:voronoi9} and used in Figure \ref{fig:voronoi8}, which is called on the calculation of ``delta" in ``define\_points". The function takes the contents of the exported variable ``distance", as well as the current ``x" and ``y" coordinates and point ID ``p" during the current points delta calculation. It then checks if the String value in ``distance" denotes either the Euclidean distance or the Manhattan distance, then it finally returns the appropriate calculation. Using the Manhattan distance instead of the Euclidean distance does indeed yield a considerable performance increase (as well as creating fewer Voronoï cells by using a smaller ``random\_starting\_points" value), which we touch on in the Evaluation chapter.
+Another addition to our implementation of the algorithm was the choice of using either the Euclidean distance or Manhattan distance for calculating the distance between points that would form cells. This was done with a function ``calculate\_points\_delta", as shown in Figure \ref{fig:voronoi9} and used in Figure \ref{fig:voronoi8}, which is called on the calculation of ``delta" in ``define\_points". The function takes the contents of the exported variable ``distance", as well as the current ``x" and ``y" coordinates and point ID ``p" during the current points delta calculation. It then checks if the String value in ``distance" denotes either the Euclidean distance or the Manhattan distance, then it finally returns the appropriate calculation. Using the Manhattan distance instead of the Euclidean distance does indeed yield a considerable performance increase (as well as creating fewer Voronoi cells by using a smaller ``random\_starting\_points" value), which we touch on in the Evaluation chapter.
 
 Furthermore, our implementation would often paint cells in the tile map that were out of bounds, so to mitigate this when painting them, an additional function ``\_is\_in\_bounds" was written, as shown in Figure \ref{fig:voronoi7} and used in Figure \ref{fig:voronoi6}, for checking whether a painted cell (that is, the coordinates of the current point \textbf{plus} the delta/difference between it and the closest of the randomly selected starting points to it) is within the boundaries of the tile map. If it is not, then it does not get painted, though it is not deleted from the point's citizens array either.
 
@@ -282,7 +282,7 @@ var y: int = randi_range(0, y_tile_range)
 var type: Vector2i = types.pick_random()
 types.erase(type)
     \end{lstlisting}
-    \caption{The types of each Voronoï cell being picked and the erased in define\_points.}
+    \caption{The types of each Voronoi cell being picked and the erased in define\_points.}
     \label{fig:voronoi4}
 \end{figure}
 
@@ -337,6 +337,6 @@ func calculate_points_delta(x: int, y: int, p: int) -> float:
     \begin{lstlisting}
 var delta: float = calculate_points_delta(x, y, p)
     \end{lstlisting}
-    \caption{The calling of calculate\_points\_delta from Figure \ref{fig:voronoi8} in define\_points, using the current x and y coordinates and point ID p in the iteration when grouping tile map cells together to form Voronoï cells from the randomly selected starting points.}
+    \caption{The calling of calculate\_points\_delta from Figure \ref{fig:voronoi8} in define\_points, using the current x and y coordinates and point ID p in the iteration when grouping tile map cells together to form Voronoi cells from the randomly selected starting points.}
     \label{fig:voronoi9}
 \end{figure}
